@@ -9,6 +9,9 @@ export const rpcUrl =
   appChain.rpcUrls.default.http[0] ||
   "https://rpc.testnet.arc.io";
 
+export const browserRpcUrl =
+  typeof window === "undefined" ? rpcUrl : `${window.location.origin}/api/rpc`;
+
 const deployment = arcTestnetDeployment as {
   address: string | null;
   chainId: number;

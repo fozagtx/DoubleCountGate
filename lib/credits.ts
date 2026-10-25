@@ -1,5 +1,5 @@
 import { createPublicClient, http, type Address, type Hash, type Hex } from "viem";
-import { appChain, registryAddress, registryDeployBlock, rpcUrl } from "@/lib/chain";
+import { appChain, browserRpcUrl, registryAddress, registryDeployBlock } from "@/lib/chain";
 import { creditRegistryAbi } from "@/lib/abi";
 
 export type WalletCredit = {
@@ -14,7 +14,7 @@ export type WalletCredit = {
 
 const publicClient = createPublicClient({
   chain: appChain,
-  transport: http(rpcUrl),
+  transport: http(browserRpcUrl),
 });
 
 export async function readWalletCredits(issuer: Address): Promise<WalletCredit[]> {

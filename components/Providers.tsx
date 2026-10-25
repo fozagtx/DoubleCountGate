@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { useState, type ReactNode } from "react";
 import { WagmiProvider, createConfig, http, injected } from "wagmi";
-import { appChain, rpcUrl } from "@/lib/chain";
+import { appChain, browserRpcUrl } from "@/lib/chain";
 import { walletConnectConfigured, walletConnectProjectId } from "@/lib/public-env";
 
 const config = walletConnectConfigured
@@ -15,7 +15,7 @@ const config = walletConnectConfigured
         walletConnectProjectId,
         chains: [appChain],
         transports: {
-          [appChain.id]: http(rpcUrl),
+          [appChain.id]: http(browserRpcUrl),
         },
         ssr: true,
       }),
@@ -24,7 +24,7 @@ const config = walletConnectConfigured
       chains: [appChain],
       connectors: [injected()],
       transports: {
-        [appChain.id]: http(rpcUrl),
+        [appChain.id]: http(browserRpcUrl),
       },
       ssr: true,
     });

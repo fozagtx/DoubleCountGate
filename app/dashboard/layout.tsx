@@ -3,8 +3,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useAccount, useBalance, useDisconnect, useSwitchChain } from "wagmi";
-import { WalletButton, shorten } from "@/components/WalletButton";
+import { useAccount, useBalance, useSwitchChain } from "wagmi";
+import { WalletButton } from "@/components/WalletButton";
 import { ChevronLeftIcon, ChevronRightIcon, DocIcon, FingerprintIcon, HomeIcon, LeafIcon } from "@/components/Icons";
 import { appChain, faucetUrl, registryAddress, registryDeployBlock, rpcUrl } from "@/lib/chain";
 
@@ -19,7 +19,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { address, chainId, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
   const { switchChain, isPending: switching } = useSwitchChain();
   const [wasConnected, setWasConnected] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -94,30 +93,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           ))}
         </nav>
 
-        <div className={`border-t border-line p-3 ${collapsed ? "items-center" : ""}`}>
-          {collapsed ? (
-            <div className="mb-3 grid h-10 w-10 place-items-center rounded-full bg-sand text-sm font-semibold text-lead" title={shorten(address)}>
-              {address.slice(2, 4).toUpperCase()}
-            </div>
-          ) : (
-            <div className="mb-3 rounded-[12px] bg-paper px-3 py-2.5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-mute">Connected wallet</p>
-              <p className="mt-1 font-mono text-[13px] text-ink">{shorten(address)}</p>
-            </div>
-          )}
-          <button
-            type="button"
-            className={`flex min-h-10 w-full items-center justify-center rounded-[9px] border border-line text-[13px] font-medium text-lead hover:bg-paper ${
-              collapsed ? "px-2" : "px-3"
-            }`}
-            onClick={() => {
-              disconnect();
-              router.push("/");
-            }}
-            title="Disconnect wallet"
-          >
-            {collapsed ? "↗" : "Disconnect"}
-          </button>
+        <div className="border-t border-line p-3">
           <button
             type="button"
             className="mt-2 flex min-h-9 w-full items-center justify-center rounded-[9px] text-mute hover:bg-paper"
@@ -137,15 +113,18 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <h1 className="font-display text-[21px] font-semibold tracking-[-0.025em]">{title}</h1>
           </div>
           <div className="flex items-center gap-3">
-            <span className={`hidden items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-medium sm:inline-flex ${
-              wrongNetwork ? "bg-blush text-clay" : "bg-moss text-forest"
-            }`}>
-              <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
-              {wrongNetwork ? "Switch to Arc Testnet" : "Connected"}
-            </span>
-            <span className="rounded-full border border-line bg-sheet px-3 py-2 font-mono text-[12px] text-lead">
-              {shorten(address)}
-            </span>
+            {wrongNetwork ? (
+              <button
+                type="button"
+                className="hidden min-h-10 items-center gap-2 rounded-full bg-blush px-3 text-[13px] font-medium text-clay sm:inline-flex"
+                disabled={switching}
+                onClick={() => switchChain({ chainId: appChain.id })}
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
+                {switching ? "Switching…" : "Switch to Arc Testnet"}
+              </button>
+            ) : null}
+            <WalletButton size="sm" />
           </div>
         </header>
 
