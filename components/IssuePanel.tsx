@@ -66,7 +66,7 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
     return (
       <div data-testid="registry-missing">
         <Banner tone="bad" title="The registry isn&apos;t deployed yet">
-          The report is ready, but credits cannot be issued until the Hoodi registry is deployed.
+          The report is ready, but credits cannot be issued until the Arc Testnet registry is deployed.
         </Banner>
       </div>
     );
@@ -77,14 +77,14 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
       {wrongNetwork ? (
         <div className="rounded-[12px] border border-line bg-paper p-5">
           <p className="text-[15px] font-semibold text-ink">Your wallet is on a different network</p>
-          <p className="mt-1 text-[14px] text-lead">Switch to Hoodi to issue this credit.</p>
+          <p className="mt-1 text-[14px] text-lead">Switch to Arc Testnet to issue this credit.</p>
           <button
             type="button"
             className="btn mt-4 min-h-10 px-4 text-sm"
             disabled={switching}
             onClick={() => switchChain({ chainId: appChain.id })}
           >
-            {switching ? "Switching…" : "Switch to Hoodi"}
+            {switching ? "Switching…" : "Switch to Arc Testnet"}
           </button>
         </div>
       ) : !isConnected ? (
@@ -105,14 +105,14 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
           <button type="button" className="btn w-full sm:w-auto" disabled={busy} onClick={issueCredit} data-testid="mint">
             {busy ? <><Spinner /> Issuing…</> : "Issue 1 credit from this report"}
           </button>
-          <p className="mt-3 text-[13px] text-mute">Your wallet will ask you to approve. Test ETH has no real-world value.</p>
+          <p className="mt-3 text-[13px] text-mute">Your wallet will ask you to approve. Test USDC pays the network fee and has no real-world value.</p>
         </div>
       )}
 
       {txHash ? (
         <div className="mt-5">
           <Banner tone="good" title="Credit issued">
-            The report is now recorded on the Hoodi registry.
+            The report is now recorded on the Arc Testnet registry.
           </Banner>
           <div className="mt-4 flex flex-wrap gap-3">
             <a className="btn-ghost min-h-10 text-sm" href={explorerTx(txHash)} target="_blank" rel="noreferrer">

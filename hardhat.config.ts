@@ -19,9 +19,9 @@ const config: HardhatUserConfig = {
       url: process.env.RPC_URL?.trim() || "http://127.0.0.1:8545",
       chainId: 31337,
     },
-    hoodi: {
-      url: process.env.HOODI_RPC_URL?.trim() || "https://rpc.hoodi.ethpandaops.io",
-      chainId: 560048,
+    arcTestnet: {
+      url: process.env.ARC_RPC_URL?.trim() || "https://rpc.testnet.arc.io",
+      chainId: 5042002,
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
     },
   },

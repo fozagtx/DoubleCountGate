@@ -87,7 +87,7 @@ export function FingerprintLookup() {
 
       {!registryAddress ? (
         <Banner tone="bad" title="The registry isn&apos;t deployed yet">
-          You can check fingerprints after the Hoodi registry is deployed.
+          You can check fingerprints after the Arc Testnet registry is deployed.
         </Banner>
       ) : (
         <section className="rounded-[16px] border border-line bg-sheet p-5 shadow-card sm:p-7">

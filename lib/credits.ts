@@ -21,14 +21,28 @@ export async function readWalletCredits(issuer: Address): Promise<WalletCredit[]
   const address = registryAddress;
   if (!address || registryDeployBlock === null) return [];
 
-  const logs = await publicClient.getContractEvents({
-    address,
-    abi: creditRegistryAbi,
-    eventName: "CreditMinted",
-    args: { issuer },
-    fromBlock: BigInt(registryDeployBlock),
-    toBlock: "latest",
-  });
+  const firstBlock = BigInt(registryDeployBlock);
+  const latestBlock = await publicClient.getBlockNumber();
+  const blockRange = 10_000n;
+  const logPages = [];
+
+  for (let fromBlock = firstBlock; fromBlock <= latestBlock;) {
+    const rangeEnd = fromBlock + blockRange - 1n;
+    const toBlock = rangeEnd > latestBlock ? latestBlock : rangeEnd;
+    logPages.push(
+      await publicClient.getContractEvents({
+        address,
+        abi: creditRegistryAbi,
+        eventName: "CreditMinted",
+        args: { issuer },
+        fromBlock,
+        toBlock,
+      }),
+    );
+    fromBlock = toBlock + 1n;
+  }
+
+  const logs = logPages.flat();
 
   const credits = await Promise.all(
     logs.map(async (log) => {

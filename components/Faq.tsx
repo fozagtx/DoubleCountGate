@@ -23,7 +23,7 @@ const questions = [
   },
   {
     q: "Do I need crypto to try it?",
-    a: "You need a wallet to approve a credit. Faircri runs on Hoodi, an Ethereum test network. Test ETH has no real-world value.",
+    a: "The examples are free to try. To approve a credit, you need a wallet with a little test USDC for the network fee. Faircri runs on Arc Testnet, where native USDC (18 decimals) pays fees. Test USDC has no real-world value.",
   },
 ];
 
@@ -66,7 +66,7 @@ export function Faq() {
           <details className="max-w-md text-sm text-mute">
             <summary className="cursor-pointer font-medium text-lead">For developers: run it yourself</summary>
             <pre className="mt-4 overflow-x-auto rounded-[10px] bg-sand p-4 font-mono text-[12px] leading-relaxed text-ink">{`npm i
-npm run deploy:hoodi  # set HOODI_RPC_URL and DEPLOYER_PRIVATE_KEY
+npm run deploy:arc  # set ARC_RPC_URL and DEPLOYER_PRIVATE_KEY
 npm run dev           # open http://localhost:3000`}</pre>
             <p className="mt-3 leading-relaxed">
               AI reading of pasted reports needs <code className="font-mono text-ink">NEBIUS_API_KEY</code> in{" "}

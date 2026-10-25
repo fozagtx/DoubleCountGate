@@ -12,7 +12,7 @@ Run `npx hardhat test` to verify that a second mint with the same hash reverts.
 
 The Nebius model reads pasted report text and returns extracted fields. `/api/extract` applies the evidence gate and returns a decision; it cannot send a transaction.
 
-To issue a credit, the connected wallet must approve a transaction on Ethereum Hoodi. The browser has no built-in test wallet. The model receives no signing key.
+To issue a credit, the connected wallet must approve a transaction on Arc Testnet. Network fees use native test USDC. The browser has no built-in test wallet. The model receives no signing key.
 
 If required fields are missing, a value is not printed in the report, or confidence is below the configured threshold (default `0.80`), the gate refuses and no issue action is offered. The synthetic examples use local sample files and do not call a model.
 

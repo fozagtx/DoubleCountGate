@@ -1,25 +1,15 @@
 import type { Address, Hash } from "viem";
-import { defineChain } from "viem";
-import { hoodi } from "viem/chains";
-import hoodiDeployment from "@/deployments/hoodi.json";
+import { arcTestnet } from "viem/chains";
+import arcTestnetDeployment from "@/deployments/arcTestnet.json";
 
-export const appChain =
-  hoodi ??
-  defineChain({
-    id: 560048,
-    name: "Hoodi",
-    nativeCurrency: { name: "Hoodi Ether", symbol: "ETH", decimals: 18 },
-    rpcUrls: { default: { http: ["https://rpc.hoodi.ethpandaops.io"] } },
-    blockExplorers: { default: { name: "Hoodi Etherscan", url: "https://hoodi.etherscan.io" } },
-    testnet: true,
-  });
+export const appChain = arcTestnet;
 
 export const rpcUrl =
   process.env.NEXT_PUBLIC_RPC_URL?.trim() ||
   appChain.rpcUrls.default.http[0] ||
-  "https://rpc.hoodi.ethpandaops.io";
+  "https://rpc.testnet.arc.io";
 
-const deployment = hoodiDeployment as {
+const deployment = arcTestnetDeployment as {
   address: string | null;
   chainId: number;
   network: string;
@@ -29,7 +19,7 @@ const deployment = hoodiDeployment as {
 
 export const registryAddress = deployment.address as Address | null;
 export const registryDeployBlock = deployment.blockNumber;
-export const faucetUrl = "https://hoodi-faucet.pk910.de";
+export const faucetUrl = "https://faucet.circle.com";
 
 export function explorerTx(hash: Hash): string {
   return `${appChain.blockExplorers.default.url}/tx/${hash}`;

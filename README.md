@@ -6,14 +6,14 @@ Faircri helps people check environmental reports and issue a public registry rec
 
 - `/` explains the service and links to the app.
 - Connect a real wallet to open `/dashboard`.
-- Use Overview to see Hoodi balance and credits issued by the connected wallet.
+- Use Overview to see the connected wallet's USDC (test) balance and issued credits.
 - Use Check a report to read one of the clearly marked examples or paste a report for AI reading.
 - Use My credits to review, retire, or flag credits issued by that wallet.
 - Use Check a fingerprint to look up a report fingerprint in the registry.
 
-The app uses the public **Ethereum Hoodi test network** (chain ID `560048`). Hoodi ETH is test ETH and has no real-world value. Connect your own wallet; the app does not provide a test wallet. If you need test ETH, use the [Hoodi faucet](https://hoodi-faucet.pk910.de).
+The app uses **Arc Testnet** (chain ID `5042002`), Circle's public test network. Network fees are paid in native USDC (18 decimals); there is no mining. Test USDC has no real-world value. Connect your own wallet; the app does not provide a test wallet. Get test USDC from the [Circle faucet](https://faucet.circle.com) and choose Arc Testnet.
 
-Until a registry contract has been deployed, `deployments/hoodi.json` contains a null address and on-chain actions are unavailable. Once deployed, the app reads that committed file for the registry address and deployment block.
+The app reads the committed registry address and deployment block from `deployments/arcTestnet.json`.
 
 ## Run locally
 
@@ -23,7 +23,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Open `http://localhost:3000`. The app defaults to the Hoodi RPC in `lib/chain.ts`; set `NEXT_PUBLIC_RPC_URL` in `.env` only if you need an override. WalletConnect QR support additionally needs `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`; injected browser wallets can connect without it.
+Open `http://localhost:3000`. The app defaults to the Arc Testnet RPC in `lib/chain.ts`; set `NEXT_PUBLIC_RPC_URL` in `.env` only if you need an override. WalletConnect QR support additionally needs `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`; injected browser wallets can connect without it.
 
 ## AI report reading
 
@@ -36,15 +36,15 @@ NEBIUS_MODEL=meta-llama/Llama-3.3-70B-Instruct
 
 Without the API key, the app says **“AI reading isn't set up on this site yet”**; the clearly labeled synthetic examples remain available. Example reports and their extracted fields are sample data, not claims about real projects.
 
-## Deploy the Hoodi registry
+## Deploy the Arc Testnet registry
 
-Set `DEPLOYER_PRIVATE_KEY` in your local `.env` to a funded Hoodi deployer account. Do not commit `.env` or the key. The optional `HOODI_RPC_URL` defaults to `https://rpc.hoodi.ethpandaops.io`.
+Set `DEPLOYER_PRIVATE_KEY` in your local `.env` to a deployer account funded with test USDC. Do not commit `.env` or the key. The optional `ARC_RPC_URL` defaults to `https://rpc.testnet.arc.io`.
 
 ```bash
-npm run deploy:hoodi
+npm run deploy:arc
 ```
 
-The deployment script writes the contract address, network, chain ID, and deployment block to `deployments/hoodi.json`. Review and commit that public deployment configuration after deploying. Never commit the deployer key.
+The deployment script writes the contract address, network, chain ID, and deployment block to `deployments/arcTestnet.json`. Review and commit that public deployment configuration after deploying. Never commit the deployer key.
 
 For local contract tests, use:
 

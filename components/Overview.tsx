@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { formatEther } from "viem";
+import { formatUnits } from "viem";
 import { useAccount, useBalance } from "wagmi";
 import { CreditStatus } from "@/components/CreditStatus";
 import { ArrowRightIcon, LeafIcon } from "@/components/Icons";
@@ -38,13 +38,17 @@ export function Overview() {
       </section>
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Wallet overview">
-        <StatCard label="Hoodi ETH balance">
-          {balance.data ? `${Number(formatEther(balance.data.value)).toFixed(4)} ETH` : balance.isLoading ? "Loading…" : "Unavailable"}
+        <StatCard label="USDC (test) for gas">
+          {balance.data
+            ? `${Number(formatUnits(balance.data.value, appChain.nativeCurrency.decimals)).toFixed(4)} USDC (test)`
+            : balance.isLoading
+              ? "Loading…"
+              : "Unavailable"}
         </StatCard>
         <StatCard label="Network">
           <span className="inline-flex items-center gap-2">
             <span className={`h-2 w-2 rounded-full ${chainId === appChain.id ? "bg-forest" : "bg-clay"}`} aria-hidden />
-            {chainId === appChain.id ? "Hoodi" : "Switch to Hoodi"}
+            {chainId === appChain.id ? "Arc Testnet" : "Switch to Arc Testnet"}
           </span>
         </StatCard>
         <StatCard label="Credits issued">{loading ? "…" : credits.length}</StatCard>
@@ -53,7 +57,7 @@ export function Overview() {
 
       {balance.isError ? (
         <p className="rounded-[14px] bg-blush px-5 py-4 text-[14px] text-lead">
-          We couldn&apos;t read this wallet&apos;s Hoodi balance right now.
+          We couldn&apos;t read this wallet&apos;s Arc Testnet USDC balance right now.
         </p>
       ) : null}
 
@@ -100,7 +104,7 @@ export function Overview() {
       </section>
 
       {!registryAddress ? (
-        <p className="text-[12px] text-mute">Credit activity will appear here after the Hoodi registry is deployed.</p>
+        <p className="text-[12px] text-mute">Credit activity will appear here after the Arc Testnet registry is deployed.</p>
       ) : null}
     </div>
   );

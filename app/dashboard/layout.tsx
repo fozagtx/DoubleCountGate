@@ -133,7 +133,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <div className={`min-h-screen transition-[padding] duration-200 ${collapsed ? "md:pl-[76px]" : "md:pl-64"}`}>
         <header className="sticky top-0 z-20 flex min-h-[76px] items-center justify-between gap-4 border-b border-line bg-paper/95 px-5 backdrop-blur md:px-8">
           <div>
-            <p className="text-[12px] font-medium text-mute">Hoodi</p>
+            <p className="text-[12px] font-medium text-mute">Arc Testnet</p>
             <h1 className="font-display text-[21px] font-semibold tracking-[-0.025em]">{title}</h1>
           </div>
           <div className="flex items-center gap-3">
@@ -141,7 +141,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               wrongNetwork ? "bg-blush text-clay" : "bg-moss text-forest"
             }`}>
               <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
-              {wrongNetwork ? "Switch network" : "Connected"}
+              {wrongNetwork ? "Switch to Arc Testnet" : "Connected"}
             </span>
             <span className="rounded-full border border-line bg-sheet px-3 py-2 font-mono text-[12px] text-lead">
               {shorten(address)}
@@ -152,21 +152,21 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <main className="mx-auto max-w-[1180px] px-5 pb-28 pt-7 md:px-8 md:pb-10 md:pt-9">
           {!registryAddress ? (
             <div className="mb-6 rounded-[12px] border border-line bg-sheet px-4 py-3 text-[14px] leading-relaxed text-lead">
-              The Hoodi registry hasn&apos;t been deployed yet. You can explore the dashboard, but issuing and looking up
+              The Arc Testnet registry hasn&apos;t been deployed yet. You can explore the dashboard, but issuing and looking up
               credits will be available after deployment.
             </div>
           ) : null}
           {balance.data?.value === 0n ? (
             <div className="mb-6 rounded-[12px] bg-sand px-4 py-3 text-[14px] leading-relaxed text-lead">
-              This wallet has no Hoodi ETH yet. Add free test ETH from the{" "}
-              <a className="link" href={faucetUrl} target="_blank" rel="noreferrer">Hoodi faucet</a>.
+              You need a little free test USDC to pay the network fee.{" "}
+              <a className="link" href={faucetUrl} target="_blank" rel="noreferrer">Get free test USDC</a>. Choose Arc Testnet at the faucet.
             </div>
           ) : null}
           {wrongNetwork ? (
             <div className="mb-6 flex flex-col items-start justify-between gap-3 rounded-[12px] bg-blush px-4 py-4 sm:flex-row sm:items-center">
               <div>
                 <p className="font-semibold text-ink">Your wallet is on a different network</p>
-                <p className="mt-1 text-[14px] text-lead">Switch to Hoodi to use your credits.</p>
+                <p className="mt-1 text-[14px] text-lead">Switch to Arc Testnet to use your credits.</p>
               </div>
               <button
                 type="button"
@@ -174,7 +174,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 disabled={switching}
                 onClick={() => switchChain({ chainId: appChain.id })}
               >
-                {switching ? "Switching…" : "Switch to Hoodi"}
+                {switching ? "Switching…" : "Switch to Arc Testnet"}
               </button>
             </div>
           ) : null}

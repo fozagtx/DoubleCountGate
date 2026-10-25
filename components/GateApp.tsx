@@ -149,7 +149,7 @@ export function GateApp() {
             Check a report before issuing a credit.
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-[17px] leading-relaxed text-lead">
-            Start with a clearly marked example report, or paste your own. Hoodi is a public test network; test ETH has no real-world value.
+            Start with a clearly marked example report, or paste your own. Examples work without a wallet. Approving a credit on Arc Testnet needs test USDC for the network fee.
           </p>
         </div>
 

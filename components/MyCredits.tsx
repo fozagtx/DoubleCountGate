@@ -73,7 +73,7 @@ export function MyCredits() {
       {error ? <p className="rounded-[12px] bg-blush px-4 py-3 text-[14px] text-lead">{error}</p> : null}
       {!registryAddress ? (
         <div className="rounded-[14px] border border-line bg-sheet p-5 text-[14px] leading-relaxed text-lead">
-          The Hoodi registry hasn&apos;t been deployed yet. Your credits will appear here after it is available.
+          The Arc Testnet registry hasn&apos;t been deployed yet. Your credits will appear here after it is available.
         </div>
       ) : null}
       {!loading && !error && registryAddress && credits.length === 0 ? (
@@ -145,7 +145,7 @@ function CreditCard({
         <div className="mt-5 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center">
           {wrongNetwork ? (
             <button type="button" className="btn-ghost min-h-10 text-sm" disabled={switching} onClick={onSwitch}>
-              {switching ? "Switching…" : "Switch to Hoodi"}
+              {switching ? "Switching…" : "Switch to Arc Testnet"}
             </button>
           ) : (
             <>
