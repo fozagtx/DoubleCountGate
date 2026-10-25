@@ -6,6 +6,10 @@ async function main() {
   const registry = await ethers.deployContract("CreditRegistry");
   await registry.waitForDeployment();
   const address = await registry.getAddress();
+  const deploymentTransaction = registry.deploymentTransaction();
+  if (!deploymentTransaction) throw new Error("The deployment transaction was not available.");
+  const receipt = await deploymentTransaction.wait();
+  if (!receipt) throw new Error("The deployment transaction was not mined.");
   const chain = await ethers.provider.getNetwork();
 
   const outDir = path.join(process.cwd(), "deployments");
@@ -16,6 +20,7 @@ async function main() {
     chainId: Number(chain.chainId),
     network: network.name,
     contract: "CreditRegistry",
+    blockNumber: receipt.blockNumber,
   };
   fs.writeFileSync(file, `${JSON.stringify(payload, null, 2)}\n`);
 

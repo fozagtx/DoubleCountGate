@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
@@ -9,6 +9,13 @@ const sans = Inter({
   variable: "--font-sans",
 });
 
+const display = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
+  variable: "--font-display",
+});
+
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
@@ -16,22 +23,21 @@ const mono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-const display = Newsreader({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  display: "swap",
-  variable: "--font-display",
-});
-
 export const metadata: Metadata = {
-  title: "DoubleCountGate — Stop the same evidence pack from minting two credits",
+  title: "Faircri — One forest report. One carbon credit. Never two.",
   description:
-    "If two desks issue a credit from the same monitoring pack, buyers cannot trust the market. DoubleCountGate hashes the pack into one evidence fingerprint before mint. A second mint reverts. The model never signs.",
+    "Faircri gives every carbon monitoring report a unique fingerprint before a credit is issued. If anyone tries to issue a second credit from the same report, it is refused automatically.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#faf7f0",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable} ${display.variable}`}>
+    <html lang="en" className={`${sans.variable} ${display.variable} ${mono.variable}`}>
       <body className={sans.className}>
         <Providers>{children}</Providers>
       </body>

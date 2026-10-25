@@ -1,18 +1,16 @@
-import { Connect } from "@/components/Connect";
-import { GateApp } from "@/components/GateApp";
+import { Faq } from "@/components/Faq";
 import { Header } from "@/components/Header";
-import { RunNotes } from "@/components/RunNotes";
+import { LandingRedirect } from "@/components/LandingRedirect";
 import { Story } from "@/components/Story";
 
 export default function Page() {
   return (
     <>
+      <LandingRedirect />
       <Header />
       <main>
         <Story />
-        <Connect />
-        <GateApp />
-        <RunNotes />
+        <Faq />
       </main>
     </>
   );

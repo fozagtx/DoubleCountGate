@@ -31,17 +31,16 @@ export type ModelConfig = {
 };
 
 export function modelConfigFromEnv(env: NodeJS.ProcessEnv = process.env): ModelConfig {
-  const apiKey = env.OPENAI_API_KEY?.trim() ?? "";
-  const baseURL = env.OPENAI_BASE_URL?.trim() ?? "";
-  if (!apiKey && !baseURL) {
+  const apiKey = env.NEBIUS_API_KEY?.trim() ?? "";
+  if (!apiKey) {
     throw new ModelConfigError(
-      "No language model configured. Set OPENAI_API_KEY or OPENAI_BASE_URL. DoubleCountGate will not invent an extraction.",
+      "AI reading isn't set up on this site yet.",
     );
   }
   return {
-    apiKey: apiKey || "not-set",
-    baseURL: (baseURL || "https://api.openai.com/v1").replace(/\/$/, ""),
-    model: env.OPENAI_MODEL?.trim() || "gpt-4o-mini",
+    apiKey,
+    baseURL: (env.NEBIUS_BASE_URL?.trim() || "https://api.tokenfactory.nebius.com/v1").replace(/\/$/, ""),
+    model: env.NEBIUS_MODEL?.trim() || "meta-llama/Llama-3.3-70B-Instruct",
   };
 }
 

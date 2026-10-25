@@ -15,7 +15,7 @@ function line(label: string, value: string) {
 }
 
 async function main() {
-  console.log("DoubleCountGate");
+  console.log("Faircri");
   console.log("Stop the same evidence pack from minting two credits.\n");
 
   const source = read("samples/mrv-cedarbend-synthetic.txt");

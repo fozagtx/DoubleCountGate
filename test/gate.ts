@@ -4,7 +4,6 @@ import { expect } from "chai";
 import { assess, type ModelExtraction } from "../lib/gate";
 import { canonicalEvidence, evidenceHash } from "../lib/evidence";
 import { parseExtraction, ModelConfigError, modelConfigFromEnv } from "../lib/model";
-import { assertLoopbackRpc } from "../lib/loopback";
 
 const root = process.cwd();
 
@@ -85,13 +84,15 @@ describe("evidence gate", () => {
     expect(parsed.fieldNotes).to.equal(null);
   });
 
-  it("fails loud when neither model env var is set", () => {
-    expect(() => modelConfigFromEnv({ NODE_ENV: "test" })).to.throw(ModelConfigError);
-  });
-
-  it("the local issuer refuses a public RPC host", () => {
-    expect(() => assertLoopbackRpc("http://127.0.0.1:8545")).to.not.throw();
-    expect(() => assertLoopbackRpc("http://localhost:8545")).to.not.throw();
-    expect(() => assertLoopbackRpc("https://eth.llamarpc.com")).to.throw(/refuses RPC host/);
+  it("requires a Nebius API key for AI report reading and uses Nebius defaults", () => {
+    expect(() => modelConfigFromEnv({ NODE_ENV: "test" })).to.throw(
+      ModelConfigError,
+      "AI reading isn't set up on this site yet.",
+    );
+    expect(modelConfigFromEnv({ NODE_ENV: "test", NEBIUS_API_KEY: "test-key" })).to.deep.equal({
+      apiKey: "test-key",
+      baseURL: "https://api.tokenfactory.nebius.com/v1",
+      model: "meta-llama/Llama-3.3-70B-Instruct",
+    });
   });
 });

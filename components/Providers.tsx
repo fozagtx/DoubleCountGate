@@ -2,83 +2,68 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { WagmiProvider, createConfig, http, injected } from "wagmi";
-import { hardhat } from "wagmi/chains";
-import { rpcUrl, walletConnectConfigured, walletConnectProjectId } from "@/lib/public-env";
-
-const queryClient = new QueryClient();
+import { appChain, rpcUrl } from "@/lib/chain";
+import { walletConnectConfigured, walletConnectProjectId } from "@/lib/public-env";
 
 const config = walletConnectConfigured
   ? createConfig(
       getDefaultConfig({
-        appName: "DoubleCountGate",
-        appDescription: "One evidence fingerprint. One carbon credit.",
+        appName: "Faircri",
+        appDescription: "One forest report. One carbon credit.",
         walletConnectProjectId,
-        chains: [hardhat],
+        chains: [appChain],
         transports: {
-          [hardhat.id]: http(rpcUrl),
+          [appChain.id]: http(rpcUrl),
         },
         ssr: true,
       }),
     )
   : createConfig({
-      chains: [hardhat],
+      chains: [appChain],
       connectors: [injected()],
       transports: {
-        [hardhat.id]: http(rpcUrl),
+        [appChain.id]: http(rpcUrl),
       },
       ssr: true,
     });
 
-export type SignerMode = "wallet" | "local";
-
-const SignerModeContext = createContext<{
-  mode: SignerMode;
-  setMode: (mode: SignerMode) => void;
-} | null>(null);
-
-export function useSignerMode() {
-  const value = useContext(SignerModeContext);
-  if (!value) throw new Error("Signer mode is only available inside Providers.");
-  return value;
-}
-
 const connectTheme = {
   "--ck-font-family": "var(--font-sans), Inter, sans-serif",
-  "--ck-accent-color": "#1f4d3a",
-  "--ck-accent-text-color": "#f6f5f2",
-  "--ck-border-radius": "12px",
-  "--ck-body-background": "#f9f9f8",
-  "--ck-body-background-secondary": "#fdfdfc",
-  "--ck-body-color": "#21201c",
-  "--ck-body-color-muted": "#63635e",
-  "--ck-primary-button-background": "#1f4d3a",
-  "--ck-primary-button-hover-background": "#17392b",
-  "--ck-primary-button-color": "#fdfdfc",
-  "--ck-connectbutton-background": "#1f4d3a",
-  "--ck-connectbutton-color": "#fdfdfc",
-  "--ck-connectbutton-hover-background": "#17392b",
-  "--ck-connectbutton-border-radius": "12px",
+  "--ck-accent-color": "#e2a65a",
+  "--ck-accent-text-color": "#1e1b16",
+  "--ck-border-radius": "14px",
+  "--ck-body-background": "#fffdf8",
+  "--ck-body-background-secondary": "#faf7f0",
+  "--ck-body-color": "#1e1b16",
+  "--ck-body-color-muted": "#7a7266",
+  "--ck-primary-button-background": "#faf7f0",
+  "--ck-primary-button-hover-background": "#f2ecdf",
+  "--ck-primary-button-color": "#1e1b16",
+  "--ck-connectbutton-background": "#1e1b16",
+  "--ck-connectbutton-color": "#fffdf8",
+  "--ck-connectbutton-hover-background": "#3a342b",
+  "--ck-connectbutton-border-radius": "10px",
 };
 
 export function Providers({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<SignerMode>("wallet");
+  const [client] = useState(() => new QueryClient());
 
   return (
     <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={client}>
         <ConnectKitProvider
           theme="minimal"
           mode="light"
           customTheme={connectTheme}
           options={{
-            initialChainId: hardhat.id,
+            initialChainId: appChain.id,
             embedGoogleFonts: false,
             enforceSupportedChains: true,
           }}
         >
-          <SignerModeContext.Provider value={{ mode, setMode }}>{children}</SignerModeContext.Provider>
+          {children}
         </ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -3,15 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --paper: #f9f9f8;
-  --sheet: #fdfdfc;
-  --sand: #f1f0ef;
-  --ink: #21201c;
-  --lead: #46413e;
-  --mute: #63635e;
-  --line: #e9e8e6;
-  --forest: #1f4d3a;
-  --forest-deep: #17392b;
+  --paper: #faf7f0;
+  --sheet: #fffdf8;
+  --ink: #1e1b16;
+  --line: #e7dfcf;
+  --tan: #e2a65a;
+  --tan-deep: #cf9043;
   color-scheme: light;
 }
 
@@ -21,6 +18,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
 body {
@@ -29,52 +27,89 @@ body {
   color: var(--ink);
   font-family: var(--font-sans), Inter, sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--forest);
-  color: var(--sheet);
+  background: var(--tan);
+  color: var(--ink);
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2.75rem;
-  padding: 0 1.25rem;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.4rem;
   border: 1px solid transparent;
-  border-radius: 12px;
-  background: var(--forest);
-  color: var(--sheet);
-  font: 500 0.875rem/1 var(--font-sans), Inter, sans-serif;
+  border-radius: 10px;
+  background: var(--tan);
+  color: var(--ink);
+  font: 600 0.95rem/1 var(--font-sans), Inter, sans-serif;
   cursor: pointer;
   text-decoration: none;
+  transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 6px 16px -8px rgba(207, 144, 67, 0.8);
 }
 
 .btn:hover {
-  background: var(--forest-deep);
+  background: var(--tan-deep);
+}
+
+.btn:active {
+  transform: translateY(1px);
 }
 
 .btn:focus-visible,
-.link:focus-visible {
-  outline: 2px solid var(--forest);
+.btn-ghost:focus-visible,
+.link:focus-visible,
+.choice:focus-visible {
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
 
 .btn:disabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-.btn-quiet {
+.btn-dark {
+  background: var(--ink);
+  color: var(--sheet);
+  box-shadow: none;
+}
+
+.btn-dark:hover {
+  background: #3a342b;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
   background: var(--sheet);
   color: var(--ink);
-  border-color: var(--line);
+  font: 500 0.95rem/1 var(--font-sans), Inter, sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 150ms ease, background-color 150ms ease;
 }
 
-.btn-quiet:hover {
+.btn-ghost:hover {
+  border-color: #c9bea8;
   background: #ffffff;
-  border-color: #b9b7b2;
+}
+
+.btn-ghost:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .link {
@@ -83,35 +118,62 @@ body {
   background: none;
   color: var(--ink);
   font: inherit;
+  font-weight: 500;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration-color: #c9bea8;
+  text-underline-offset: 4px;
   cursor: pointer;
+}
+
+.link:hover {
+  text-decoration-color: var(--ink);
 }
 
 .field {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--sheet);
+  border-radius: 10px;
+  background: #ffffff;
   color: var(--ink);
   font: inherit;
 }
 
 .field:focus {
-  outline: 2px solid var(--forest);
+  outline: 2px solid var(--tan);
   outline-offset: 1px;
 }
 
-.panel {
+.choice {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 12px;
   background: #ffffff;
-  box-shadow: rgba(0, 0, 0, 0.024) 0 1px 2px 0, rgba(0, 0, 0, 0.055) 0 18px 44px 0,
-    rgba(255, 255, 255, 0.9) 0 1px 0 0 inset;
+  padding: 1rem 1.1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.choice:hover {
+  border-color: #c9bea8;
+}
+
+.choice[aria-pressed="true"] {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .btn,
+  .btn-ghost,
+  .choice {
+    transition: none;
   }
 }

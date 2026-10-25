@@ -10,6 +10,7 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "deploy": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:hoodi": "hardhat run scripts/deploy.ts --network hoodi",
     "demo": "hardhat run scripts/demo.ts",
     "extract": "hardhat run scripts/extract-and-mint.ts --network localhost"
   },

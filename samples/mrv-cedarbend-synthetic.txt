@@ -1,5 +1,5 @@
 SYNTHETIC SAMPLE
-This monitoring note is invented for the DoubleCountGate prototype.
+This monitoring note is invented for the Faircri prototype.
 It is not a real project and not a real carbon credit.
 
 Project name: Cedar Bend Afforestation Pilot

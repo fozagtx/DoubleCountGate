@@ -1,87 +1,115 @@
+import { BlockIcon, CheckIcon, DocIcon, EyeIcon, FingerprintIcon, ShieldIcon, SparkIcon } from "@/components/Icons";
+import { WalletEntryButton } from "@/components/WalletEntryButton";
+
+const photos = [
+  { src: "/photos/auditor.jpg", alt: "An auditor reviewing printed forest monitoring reports", tilt: "-rotate-[4deg] translate-y-6" },
+  { src: "/photos/nursery.jpg", alt: "A nursery worker holding a tray of tree seedlings", tilt: "-rotate-[2deg] translate-y-2" },
+  { src: "/photos/ranger.jpg", alt: "A forest ranger measuring the trunk of a pine tree", tilt: "rotate-0 -translate-y-2 scale-[1.04] z-10" },
+  { src: "/photos/canopy.jpg", alt: "Aerial view of forest canopy along a river", tilt: "rotate-[4deg] translate-y-6" },
+];
+
+const steps = [
+  {
+    icon: DocIcon,
+    title: "Add the forest report",
+    body: "Paste the monitoring report that proves how much carbon a project removed, or start with our example.",
+  },
+  {
+    icon: FingerprintIcon,
+    title: "We give it a fingerprint",
+    body: "The key facts — project, method, dates, tonnes, report ID — turn into a unique code. Same report, same code. Every time.",
+  },
+  {
+    icon: ShieldIcon,
+    title: "Issue the credit once",
+    body: "You approve the credit from your wallet. The fingerprint is recorded on a public registry for anyone to check.",
+  },
+  {
+    icon: BlockIcon,
+    title: "Copies are refused",
+    body: "If anyone tries to issue another credit from the same report, the registry says no. Automatically. No meetings needed.",
+  },
+];
+
 export function Story() {
   return (
     <div id="top">
-      <section className="mx-auto max-w-marketing px-6 pb-16 pt-20 md:pt-24">
-        <p className="text-sm font-medium text-mute">Carbon credit registries</p>
-        <h1 className="mt-5 max-w-2xl font-display text-[44px] font-medium leading-[1.08] tracking-[-0.02em] text-ink md:text-[56px]">
-          Stop the same evidence pack from minting two credits
-        </h1>
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-lead md:text-xl md:leading-snug">
-          If two desks issue a credit from the same monitoring pack, buyers cannot trust the market. DoubleCountGate
-          hashes the pack into one evidence fingerprint before mint. The first mint succeeds. A second mint of that
-          fingerprint reverts on-chain.
+      <section className="mx-auto max-w-marketing px-5 pb-10 pt-14 text-center md:px-8 md:pt-20">
+        <p className="inline-flex items-center gap-2 rounded-md bg-sand px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-lead">
+          <span className="h-1.5 w-1.5 rounded-full bg-forest" aria-hidden />
+          For carbon registries &amp; project developers
         </p>
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <a href="#desk" className="btn">
-            Open the desk
+        <h1 className="mx-auto mt-6 max-w-[15ch] font-display text-[44px] font-bold leading-[0.98] tracking-[-0.045em] text-ink sm:text-[60px] md:text-[78px]">
+          One forest report. One credit. Never two.
+        </h1>
+        <p className="mx-auto mt-6 max-w-[34rem] text-[17px] leading-relaxed text-lead md:text-lg">
+          When the same report is used to issue two carbon credits, the climate only wins once — and buyers stop trusting
+          the market. Faircri makes sure every report can back exactly one credit.
+        </p>
+        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <WalletEntryButton
+            label="Connect wallet to start"
+            connectedLabel="Go to dashboard"
+            className="btn w-full sm:w-auto"
+          />
+          <a href="#how" className="btn-ghost w-full sm:w-auto">
+            See how it works
           </a>
-          <a href="#run" className="text-sm font-medium text-ink underline decoration-line underline-offset-[3px]">
-            How to run locally
-          </a>
+        </div>
+        <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium text-lead">
+          <li className="flex items-center gap-1.5">
+            <CheckIcon className="h-4 w-4 text-forest" /> Free to try, no sign-up
+          </li>
+          <li className="flex items-center gap-1.5">
+            <SparkIcon className="h-4 w-4 text-forest" /> AI helps read reports, never issues credits
+          </li>
+          <li className="flex items-center gap-1.5">
+            <EyeIcon className="h-4 w-4 text-forest" /> Every credit is publicly checkable
+          </li>
+        </ul>
+      </section>
+
+      <section className="overflow-hidden pb-20 pt-6 md:pb-28" aria-label="People working on forest projects">
+        <div className="mx-auto flex max-w-marketing justify-center gap-3 px-5 md:gap-4 md:px-8">
+          {photos.map((photo, index) => (
+            <div
+              key={photo.src}
+              className={`relative aspect-[3/4] w-[44%] shrink-0 overflow-hidden rounded-[14px] shadow-lift sm:w-[30%] md:w-[19%] ${photo.tilt} ${
+                index === 0 || index === 4 ? "hidden md:block" : index === 1 ? "hidden sm:block" : ""
+              }`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={photo.src} alt={photo.alt} className="h-full w-full object-cover" loading="lazy" />
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-marketing px-6 pb-24" aria-hidden="true">
-        <div className="panel overflow-hidden" data-testid="desk-preview">
-          <div className="flex items-center justify-between border-b border-line bg-sand px-5 py-3">
-            <p className="text-sm font-medium">Evidence pack</p>
-            <p className="text-xs text-mute">Preview · not a live signature</p>
+      <section id="how" className="border-t border-line bg-sheet">
+        <div className="mx-auto max-w-marketing px-5 py-20 md:px-8 md:py-28">
+          <div className="max-w-2xl">
+            <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-mute">How it works</p>
+            <h2 className="mt-3 font-display text-[34px] font-bold leading-[1.05] tracking-[-0.035em] md:text-[48px]">
+              Double counting, stopped before it starts.
+            </h2>
+            <p className="mt-4 text-[17px] leading-relaxed text-lead">
+              Four steps. You only do the first and the third — the rest happens on its own.
+            </p>
           </div>
-          <div className="grid md:grid-cols-[1.45fr_0.85fr]">
-            <div className="border-b border-line p-5 md:border-b-0 md:border-r">
-              <div className="min-h-[168px] rounded-xl border border-line bg-sheet px-4 py-4 text-sm leading-relaxed text-lead">
-                <p>Project: Cedar Bend Afforestation Pilot</p>
-                <p>Methodology: VM0012-demo</p>
-                <p>Period: 2024-01-01 to 2024-12-31</p>
-                <p>Tonnes: 1280.5</p>
-                <p>Evidence id: SYN-MRV-CEDARBEND-2024-A</p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-between bg-sheet p-5">
-              <div>
-                <p className="text-xs font-medium text-mute">Fingerprint</p>
-                <p className="mt-2 break-all font-mono text-xs leading-relaxed text-ink">
-                  0x36b632b29a85be0f71c8b2f618084a893700910c59309b3f9e0a5dbd34882d3a
-                </p>
-              </div>
-              <div className="mt-6">
-                <span className="inline-flex min-h-11 items-center rounded-xl bg-forest px-4 text-sm font-medium text-sheet">
-                  Mint this credit
-                </span>
-                <p className="mt-3 text-xs leading-relaxed text-mute">Second attempt of this hash reverts.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-line">
-        <div className="mx-auto max-w-marketing px-6 py-24">
-          <h2 className="font-display text-[28px] font-medium leading-tight tracking-[-0.02em]">How it works</h2>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            <article className="rounded-[14px] border border-line bg-white p-6">
-              <p className="text-xs font-medium text-mute">1</p>
-              <h3 className="mt-3 text-base font-medium">Problem</h3>
-              <p className="mt-2 text-sm leading-relaxed text-lead">
-                One pack reaches two desks. Each desk can mint a ton.
-              </p>
-            </article>
-            <article className="rounded-[14px] border border-line bg-white p-6">
-              <p className="text-xs font-medium text-mute">2</p>
-              <h3 className="mt-3 text-base font-medium">Fingerprint</h3>
-              <p className="mt-2 text-sm leading-relaxed text-lead">
-                Required fields become one sha256. The registry stores it once. A repeat reverts with
-                EVIDENCE_ALREADY_USED.
-              </p>
-            </article>
-            <article className="rounded-[14px] border border-line bg-white p-6">
-              <p className="text-xs font-medium text-mute">3</p>
-              <h3 className="mt-3 text-base font-medium">Who signs</h3>
-              <p className="mt-2 text-sm leading-relaxed text-lead">
-                The model returns fields and a confidence score. Your connected wallet signs the mint, or nobody does.
-              </p>
-            </article>
-          </div>
+          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((step, index) => (
+              <li key={step.title} className="rounded-[16px] border border-line bg-paper p-6">
+                <div className="flex items-center justify-between">
+                  <span className="grid h-11 w-11 place-items-center rounded-[12px] bg-sheet text-forest shadow-card">
+                    <step.icon className="h-5 w-5" />
+                  </span>
+                  <span className="font-display text-sm font-semibold text-mute">0{index + 1}</span>
+                </div>
+                <h3 className="mt-6 font-display text-[19px] font-semibold tracking-[-0.02em]">{step.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-lead">{step.body}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
     </div>
