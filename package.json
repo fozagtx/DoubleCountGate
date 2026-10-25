@@ -14,11 +14,12 @@
     "extract": "hardhat run scripts/extract-and-mint.ts --network localhost"
   },
   "dependencies": {
-    "@fontsource-variable/fraunces": "^5.2.8",
-    "@fontsource-variable/outfit": "^5.2.6",
-    "@fontsource/ibm-plex-mono": "^5.2.6",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@tanstack/react-query": "^5.62.0",
+    "@x402/core": "^2.28.0",
+    "@x402/evm": "^2.28.0",
+    "@x402/svm": "^2.28.0",
+    "connectkit": "^1.9.2",
     "dotenv": "^16.4.7",
     "ethers": "^6.13.5",
     "hardhat": "^2.22.17",

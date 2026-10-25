@@ -1,24 +1,15 @@
-@import "@fontsource-variable/fraunces/wght.css";
-@import "@fontsource-variable/fraunces/wght-italic.css";
-@import "@fontsource-variable/outfit";
-@import "@fontsource/ibm-plex-mono/400.css";
-@import "@fontsource/ibm-plex-mono/500.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --paper: #efece4;
-  --sheet: #f7f5f0;
-  --ink: #1c1915;
-  --mute: #5e584f;
-  --line: #ddd6c8;
-  --forest: #1e4636;
-  --forest-deep: #143026;
-  --moss: #e5efe7;
-  --oxide: #9c3418;
-  --clay: #f6e6de;
+  --paper: #f6f5f2;
+  --sheet: #fffcf8;
+  --ink: #141413;
+  --mute: #5f5e5a;
+  --line: #e4e2dc;
+  --forest: #1f4d3a;
+  --forest-deep: #17392b;
   color-scheme: light;
 }
 
@@ -34,8 +25,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Outfit Variable", "Outfit", "Avenir Next", sans-serif;
-  font-weight: 430;
+  font-family: var(--font-sans), Inter, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
@@ -44,125 +34,73 @@ body {
   color: var(--sheet);
 }
 
-.serif {
-  font-family: "Fraunces Variable", Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
-  font-optical-sizing: auto;
-}
-
-.display {
-  font-family: "Fraunces Variable", Fraunces, Georgia, serif;
-  font-weight: 560;
-  font-variation-settings: "SOFT" 30, "opsz" 144, "wght" 560;
-  letter-spacing: -0.035em;
-  line-height: 0.9;
-}
-
-.display em {
-  font-style: italic;
-  font-weight: 500;
-  font-variation-settings: "SOFT" 50, "opsz" 144, "wght" 500;
-  color: var(--forest);
-}
-
-.eyebrow {
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--mute);
-}
-
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  min-height: 3rem;
-  padding: 0.7rem 1.15rem;
-  border: 1px solid var(--ink);
-  border-radius: 2px;
-  background: transparent;
-  color: var(--ink);
-  font: 500 0.95rem/1 "Outfit Variable", "Outfit", sans-serif;
-  letter-spacing: 0.01em;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--forest);
+  color: var(--sheet);
+  font: 500 0.9375rem/1 var(--font-sans), Inter, sans-serif;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease, transform 160ms ease, border-color 160ms ease;
 }
 
 .btn:hover {
-  background: var(--ink);
-  color: var(--sheet);
+  background: var(--forest-deep);
 }
 
-.btn:active {
-  transform: translateY(1px);
-}
-
-.btn:focus-visible {
+.btn:focus-visible,
+.link:focus-visible {
   outline: 2px solid var(--forest);
   outline-offset: 3px;
 }
 
 .btn:disabled {
-  opacity: 0.38;
+  opacity: 0.4;
   cursor: not-allowed;
-  transform: none;
 }
 
-.btn-forest {
-  background: var(--forest);
-  border-color: var(--forest);
-  color: var(--sheet);
+.btn-quiet {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
 }
 
-.btn-forest:hover {
-  background: var(--forest-deep);
-  border-color: var(--forest-deep);
-  color: var(--sheet);
+.btn-quiet:hover {
+  background: transparent;
+  border-color: var(--ink);
 }
 
-.btn-oxide {
-  color: var(--oxide);
-  border-color: var(--oxide);
-}
-
-.btn-oxide:hover {
-  background: var(--oxide);
-  color: white;
-}
-
-.sheet {
-  background: var(--sheet);
-  border: 1px solid var(--line);
-}
-
-.rule {
+.link {
+  padding: 0;
   border: 0;
-  border-top: 1px solid var(--line);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 
-.stamp {
-  animation: stamp 320ms ease-out;
+.field {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--sheet);
+  color: var(--ink);
+  font: inherit;
 }
 
-@keyframes stamp {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(1.01);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.field:focus {
+  outline: 2px solid var(--forest);
+  outline-offset: 1px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  .stamp {
-    animation: none;
-  }
-  .btn {
-    transition: none;
   }
 }

@@ -1,3 +1,4 @@
+import { Connect } from "@/components/Connect";
 import { GateApp } from "@/components/GateApp";
 import { Header } from "@/components/Header";
 import { RunNotes } from "@/components/RunNotes";
@@ -9,6 +10,7 @@ export default function Page() {
       <Header />
       <main>
         <Story />
+        <Connect />
         <GateApp />
         <RunNotes />
       </main>

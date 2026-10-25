@@ -4,17 +4,18 @@ Carbon credits only work if each ton is sold once. The same forest or project pa
 
 DoubleCountGate is for the registry that issues the credit. Before a credit exists, the evidence pack is locked to one fingerprint. That fingerprint can be minted once. A second mint of the same evidence is refused.
 
-A language model may help read the paperwork into fields. It never holds the mint key, and it never creates the credit. If the read is incomplete, or the confidence is below the line, the app refuses and nothing is signed. The local issuer — Hardhat’s test account on this machine — signs the mint. A browser wallet on the same machine can sign instead.
+A language model may help read the paperwork into fields. It never holds the mint key, and it never creates the credit. If the read is incomplete, or the confidence is below the line, the app refuses and nothing is signed. ConnectKit connects the wallet that signs. A text link can use Hardhat’s local account when no browser wallet is installed.
 
 Who it is for: a carbon registry, or a project developer about to issue. What goes wrong today: one monitoring pack, two credits. What this does: stop the second one at the door.
 
 ## What you can watch
 
-1. Open the site. **Use local issuer** is already selected. No wallet-cloud account.
-2. **Use the synthetic fingerprint.** That hash is computed from the sample file. No model is called.
-3. **Mint this credit.** The credit id comes back **Issued**.
-4. **Attempt a second mint.** The chain reverts with `EVIDENCE_ALREADY_USED`. The page says the chain refused.
-5. Optionally, **Read the paperwork.** That call needs a model key. If the key is missing, the reader fails loud and invents nothing. A thin note, or a low-confidence read, is refused before any transaction.
+1. Open the site and use the **ConnectKit** button. A browser wallet on this machine connects without a WalletConnect project id.
+2. If you have no browser wallet, use the text link **Use the local Hardhat account**. It is not the main control.
+3. **Use the synthetic fingerprint.** That hash is computed from the sample file. No model is called.
+4. **Mint this credit.** The credit id comes back **Issued**.
+5. **Attempt a second mint.** The chain reverts with `EVIDENCE_ALREADY_USED`. The page says the chain refused.
+6. Optionally, **Read the paperwork.** That call needs a model key. If the key is missing, the reader fails loud and invents nothing.
 
 ## Re-run
 
@@ -30,7 +31,7 @@ The offline half of the demo computes the fingerprint from the sample’s own fi
 
 ## Web app
 
-The page is the primary path. No WalletConnect project id. No model key. The local issuer signs against the Hardhat node on this machine.
+The page is the primary path. No model key is required for the lock. ConnectKit is the wallet button.
 
 ```bash
 npx hardhat node
@@ -38,11 +39,11 @@ npm run deploy
 npm run dev
 ```
 
-Open the site. Choose **Use the synthetic fingerprint**, then **Mint this credit**, then **Attempt a second mint**.
+Open the site. Connect with ConnectKit, or follow **Use the local Hardhat account** if you have no browser wallet. Then **Use the synthetic fingerprint**, **Mint this credit**, and **Attempt a second mint**.
 
-The local issuer is Hardhat account #0 (`0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266`). The button uses Hardhat’s published test key and refuses any RPC that is not `localhost` or `127.0.0.1`. Do not fund that account. The model is never given the key.
+WalletConnect’s phone QR needs `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` from [WalletConnect Cloud](https://cloud.walletconnect.com). Leave it unset if you do not have one. Do not invent a value. Without it, the QR path is not started, and the ConnectKit button still connects an injected wallet on chain id **31337**, RPC **http://127.0.0.1:8545**.
 
-A browser wallet already installed on this machine can sign instead: chain id **31337**, RPC **http://127.0.0.1:8545**. That path uses the injected connector only.
+The local Hardhat account is account #0 (`0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266`), Hardhat’s published test key. It signs only against `localhost` or `127.0.0.1`. Do not fund it. The model is never given the key.
 
 `OPENAI_API_KEY` or `OPENAI_BASE_URL` is only for **Read the paperwork**. If both are missing, that button fails loud and does not invent an extraction. The synthetic fingerprint and the mint buttons keep working.
 
@@ -58,7 +59,7 @@ A rewritten document is a different fingerprint. This prototype does not fuzzy-m
 
 ## Built with
 
-Solidity, Hardhat, ethers v6, Next.js, Tailwind, wagmi, viem, and an OpenAI-compatible chat completions endpoint.
+Solidity, Hardhat, ethers v6, Next.js, Tailwind, ConnectKit, wagmi, viem, and an OpenAI-compatible chat completions endpoint.
 
 Scope is the lock: the registry, the reader, and the wallet signature.
 
