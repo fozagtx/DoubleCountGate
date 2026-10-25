@@ -4,7 +4,7 @@ export function RunNotes() {
       <div className="mx-auto max-w-desk px-6 py-24">
         <h2 className="text-2xl font-medium tracking-tight">Run locally</h2>
         <p className="mt-4 max-w-xl leading-relaxed text-mute">
-          The Akofia note is synthetic. It is not a real project. The synthetic fingerprint button does not call a model.
+          The synthetic Cedar Bend note is not a real project. The synthetic fingerprint button does not call a model.
           Read the paperwork needs OPENAI_API_KEY or OPENAI_BASE_URL.
         </p>
         <pre className="mt-10 overflow-x-auto font-mono text-[13px] leading-relaxed text-ink">{`npm i

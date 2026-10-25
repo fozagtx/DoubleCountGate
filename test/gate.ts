@@ -12,14 +12,14 @@ function read(relative: string): string {
   return fs.readFileSync(path.join(root, relative), "utf8");
 }
 
-const akofia = JSON.parse(read("samples/akofia-fields.json")) as ModelExtraction;
+const fixture = JSON.parse(read("samples/cedarbend-fields.json")) as ModelExtraction;
 
 describe("evidence gate", () => {
-  const source = read("samples/mrv-akofia-synthetic.txt");
+  const source = read("samples/mrv-cedarbend-synthetic.txt");
   const thin = read("samples/mrv-thin-synthetic.txt");
 
   it("accepts a grounded read at or above the line", () => {
-    const decision = assess(source, akofia, 0.8);
+    const decision = assess(source, fixture, 0.8);
     expect(decision.ok).to.equal(true);
     if (!decision.ok) return;
     expect(decision.hash).to.match(/^0x[0-9a-f]{64}$/);
@@ -29,7 +29,7 @@ describe("evidence gate", () => {
   });
 
   it("refuses when confidence is below the line", () => {
-    const decision = assess(source, { ...akofia, confidence: 0.22 }, 0.8);
+    const decision = assess(source, { ...fixture, confidence: 0.22 }, 0.8);
     expect(decision.ok).to.equal(false);
     if (decision.ok) return;
     expect(decision.hash).to.equal(null);
@@ -77,9 +77,9 @@ describe("evidence gate", () => {
 
   it("parses a fenced model payload and ignores nothing into a credit", () => {
     const parsed = parseExtraction(
-      '```json\n{"projectName":"Akofia Community Woodlot","tonnesCo2e":"1280.5","confidence":0.9,"fieldNotes":""}\n```',
+      '```json\n{"projectName":"Cedar Bend Afforestation Pilot","tonnesCo2e":"1280.5","confidence":0.9,"fieldNotes":""}\n```',
     );
-    expect(parsed.projectName).to.equal("Akofia Community Woodlot");
+    expect(parsed.projectName).to.equal("Cedar Bend Afforestation Pilot");
     expect(parsed.tonnesCo2e).to.equal(1280.5);
     expect(parsed.methodology).to.equal(null);
     expect(parsed.fieldNotes).to.equal(null);

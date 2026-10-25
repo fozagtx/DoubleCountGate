@@ -1,10 +1,10 @@
 {
-  "projectName": "Akofia Community Woodlot",
+  "projectName": "Cedar Bend Afforestation Pilot",
   "methodology": "VM0012-demo",
   "reportingPeriod": "2024-01-01 to 2024-12-31",
-  "geography": "Volta Region, Ghana (synthetic location)",
+  "geography": "Demo temperate zone (synthetic location)",
   "tonnesCo2e": 1280.5,
-  "evidenceId": "SYN-MRV-AKOFIA-2024-A",
+  "evidenceId": "SYN-MRV-CEDARBEND-2024-A",
   "confidence": 0.93,
   "fieldNotes": "Authored fixture for the synthetic sample. Not a model response."
 }

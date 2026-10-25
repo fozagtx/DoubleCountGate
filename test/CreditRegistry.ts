@@ -16,23 +16,23 @@ describe("CreditRegistry", () => {
   it("mints a credit for new evidence", async () => {
     const { registry, issuer, hash } = await loadFixture(deploy);
 
-    await expect(registry.mint(hash, "akofia://evidence"))
+    await expect(registry.mint(hash, "cedarbend://evidence"))
       .to.emit(registry, "CreditMinted")
-      .withArgs(1n, hash, issuer.address, "akofia://evidence");
+      .withArgs(1n, hash, issuer.address, "cedarbend://evidence");
 
     expect(await registry.creditIdForEvidence(hash)).to.equal(1n);
     const credit = await registry.getCredit(1);
     expect(credit.evidenceHash).to.equal(hash);
     expect(credit.issuer).to.equal(issuer.address);
     expect(credit.status).to.equal(Status.Issued);
-    expect(credit.uri).to.equal("akofia://evidence");
+    expect(credit.uri).to.equal("cedarbend://evidence");
   });
 
   it("reverts the second mint of the same hash", async () => {
     const { registry, hash } = await loadFixture(deploy);
-    await registry.mint(hash, "akofia://evidence");
+    await registry.mint(hash, "cedarbend://evidence");
 
-    await expect(registry.mint(hash, "akofia://evidence"))
+    await expect(registry.mint(hash, "cedarbend://evidence"))
       .to.be.revertedWithCustomError(registry, "EVIDENCE_ALREADY_USED")
       .withArgs(hash, 1n);
 
@@ -45,7 +45,7 @@ describe("CreditRegistry", () => {
 
   it("retires an issued credit and refuses a second retire", async () => {
     const { registry, issuer, other, hash } = await loadFixture(deploy);
-    await registry.mint(hash, "akofia://evidence");
+    await registry.mint(hash, "cedarbend://evidence");
 
     const otherRegistry = registry.connect(other) as typeof registry;
     await expect(otherRegistry.retire(1))
@@ -67,7 +67,7 @@ describe("CreditRegistry", () => {
 
   it("marks an issued credit contested", async () => {
     const { registry, other, hash } = await loadFixture(deploy);
-    await registry.mint(hash, "akofia://evidence");
+    await registry.mint(hash, "cedarbend://evidence");
 
     const challenger = registry.connect(other) as typeof registry;
     await expect(challenger.contest(1, "plots overlap a second project"))

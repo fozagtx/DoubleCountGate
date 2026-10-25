@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 
 const samples = {
   full: {
-    file: "mrv-akofia-synthetic.txt",
-    label: "Synthetic MRV — Akofia Community Woodlot. Invented for this prototype. Not a real project.",
+    file: "mrv-cedarbend-synthetic.txt",
+    label: "Synthetic MRV — Cedar Bend Afforestation Pilot. Invented for this prototype. Not a real project.",
   },
   thin: {
     file: "mrv-thin-synthetic.txt",
