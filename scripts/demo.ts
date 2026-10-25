@@ -16,7 +16,7 @@ function line(label: string, value: string) {
 
 async function main() {
   console.log("DoubleCountGate");
-  console.log("Each ton, sold once.\n");
+  console.log("Stop the same evidence pack from minting two credits.\n");
 
   const source = read("samples/mrv-akofia-synthetic.txt");
   const fields = JSON.parse(read("samples/akofia-fields.json")) as ModelExtraction;
@@ -49,7 +49,7 @@ async function main() {
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
       await registry.mint(decision.hash, decision.canonical);
-      console.error(`attempt ${attempt}: mint succeeded. The lock failed.`);
+      console.error(`attempt ${attempt}: mint succeeded. The registry did not block it.`);
       process.exit(1);
     } catch (error) {
       const decoded = registry.interface.parseError(revertData(error));

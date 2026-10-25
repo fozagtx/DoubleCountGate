@@ -52,7 +52,7 @@ describe("C2 — the model cannot mint", () => {
     }
   });
 
-  it("the frontend ABI names the lock the contract uses", () => {
+  it("the frontend ABI names the registry functions", () => {
     const artifact = JSON.parse(
       fs.readFileSync(
         path.join(root, "artifacts/contracts/CreditRegistry.sol/CreditRegistry.json"),

@@ -102,13 +102,13 @@ export function GateApp() {
 
   return (
     <section id="desk" className="border-t border-line">
-      <div className="mx-auto max-w-3xl px-6 py-24">
-        <h2 className="text-2xl font-medium tracking-tight">Evidence.</h2>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-mute" data-testid="reader-status">
+      <div className="mx-auto max-w-desk px-6 py-24">
+        <h2 className="text-2xl font-medium tracking-tight">Evidence pack</h2>
+        <p className="mt-3 max-w-xl text-base leading-relaxed text-lead" data-testid="reader-status">
           {modelReady === false
-            ? "The reader is optional. Set OPENAI_API_KEY or OPENAI_BASE_URL to read a note. If both are missing, that button fails and invents nothing. The synthetic fingerprint does not call a model."
+            ? "No model key set (OPENAI_API_KEY or OPENAI_BASE_URL). “Read the paperwork” will fail out loud and invent nothing. “Use the synthetic fingerprint” does not call a model."
             : modelReady === true
-              ? "A live model can read the note. Below the line, nothing is offered to the wallet."
+              ? "A live model can read the note into fields. Mint still requires your wallet signature."
               : "Checking whether a model is configured."}
         </p>
 
@@ -122,10 +122,10 @@ export function GateApp() {
             setText(event.target.value);
             setSampleLabel(null);
           }}
-          placeholder="Paste a monitoring note, or use the synthetic fingerprint."
-          className="field mt-10 min-h-[16rem] resize-y px-4 py-4 leading-relaxed"
+          placeholder="Paste a monitoring note, or use the synthetic fingerprint below."
+          className="field mt-8 min-h-[16rem] resize-y bg-white px-4 py-4 leading-relaxed"
         />
-        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
           <button type="button" className="btn" onClick={onSynthetic} data-testid="synthetic-lock">
             Use the synthetic fingerprint
           </button>
@@ -144,8 +144,8 @@ export function GateApp() {
         <div className="mt-12">
           {phase === "idle" ? (
             <p className="max-w-xl text-sm leading-relaxed text-mute">
-              A passing read needs the project, the methodology, the period, the tonnes, and an evidence id, each printed
-              in the note, with confidence at or above 0.80.
+              A passing read needs project, methodology, period, tonnes, and evidence id printed in the note, with confidence ≥
+              0.80.
             </p>
           ) : null}
           {phase === "reading" ? (
@@ -155,18 +155,18 @@ export function GateApp() {
           ) : null}
           {phase === "error" && error ? (
             <div data-testid="model-missing">
-              <h3 className="text-3xl font-medium tracking-tight">
-                {error.code === "MODEL_NOT_CONFIGURED" ? "The reader is not connected." : "The read did not finish."}
+              <h3 className="text-2xl font-medium tracking-tight">
+                {error.code === "MODEL_NOT_CONFIGURED" ? "Reader not configured" : "Read failed"}
               </h3>
               <p className="mt-4 max-w-xl leading-relaxed text-mute">{error.message}</p>
             </div>
           ) : null}
           {phase === "refuse" && decision && !decision.ok ? (
             <div data-testid="read-refuse">
-              <h3 className="text-3xl font-medium tracking-tight">Not read well enough to mint.</h3>
+              <h3 className="text-2xl font-medium tracking-tight">Not enough to mint</h3>
               <p className="mt-4 leading-relaxed text-mute">
-                Confidence {formatConfidence(decision.confidence)}. The line is {decision.threshold.toFixed(2)}. The
-                wallet was not asked to sign.
+                Confidence {formatConfidence(decision.confidence)}. Required confidence is {decision.threshold.toFixed(2)}.
+                No wallet signature was requested.
               </p>
               <ul className="mt-6 space-y-2 text-sm leading-relaxed">
                 {decision.reasons.map((reason) => (
@@ -179,9 +179,9 @@ export function GateApp() {
           {phase === "pass" && decision && decision.ok ? (
             <div data-testid="read-pass">
               <p className="text-sm text-mute">
-                {origin === "synthetic" ? "Synthetic pack. No model was called." : "Clear to offer a signature."}
+                {origin === "synthetic" ? "Synthetic pack — no model was called." : "Fields look complete. You can mint below."}
               </p>
-              <h3 className="mt-3 text-3xl font-medium tracking-tight">One fingerprint.</h3>
+              <h3 className="mt-3 text-2xl font-medium tracking-tight">Fingerprint ready</h3>
               <dl className="mt-8 max-w-xl space-y-3 text-sm">
                 <Field term="Project" value={decision.fields.projectName} />
                 <Field term="Methodology" value={decision.fields.methodology} />
@@ -204,10 +204,10 @@ export function GateApp() {
       </div>
 
       <div className="border-t border-line">
-        <div className="mx-auto max-w-3xl px-6 py-24">
-          <h2 className="text-2xl font-medium tracking-tight">Mint.</h2>
-          <p className="mt-4 max-w-xl leading-relaxed text-mute">
-            One signature creates the credit. The next attempt with this fingerprint is the refusal.
+        <div className="mx-auto max-w-desk px-6 py-24">
+          <h2 className="text-2xl font-medium tracking-tight">Mint credit</h2>
+          <p className="mt-3 max-w-xl leading-relaxed text-lead">
+            Sign once to issue the credit. Trying the same fingerprint again should revert.
           </p>
           <div className="mt-10">
             <IssuePanel ready={pass} />

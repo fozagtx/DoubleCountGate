@@ -3,11 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --paper: #f6f5f2;
-  --sheet: #fffcf8;
-  --ink: #141413;
-  --mute: #5f5e5a;
-  --line: #e4e2dc;
+  --paper: #f9f9f8;
+  --sheet: #fdfdfc;
+  --sand: #f1f0ef;
+  --ink: #21201c;
+  --lead: #46413e;
+  --mute: #63635e;
+  --line: #e9e8e6;
   --forest: #1f4d3a;
   --forest-deep: #17392b;
   color-scheme: light;
@@ -39,13 +41,14 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 2.75rem;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--forest);
   color: var(--sheet);
-  font: 500 0.9375rem/1 var(--font-sans), Inter, sans-serif;
+  font: 500 0.875rem/1 var(--font-sans), Inter, sans-serif;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -64,14 +67,14 @@ body {
 }
 
 .btn-quiet {
-  background: transparent;
+  background: var(--sheet);
   color: var(--ink);
   border-color: var(--line);
 }
 
 .btn-quiet:hover {
-  background: transparent;
-  border-color: var(--ink);
+  background: #ffffff;
+  border-color: #b9b7b2;
 }
 
 .link {
@@ -88,7 +91,7 @@ body {
 .field {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--sheet);
   color: var(--ink);
   font: inherit;
@@ -97,6 +100,14 @@ body {
 .field:focus {
   outline: 2px solid var(--forest);
   outline-offset: 1px;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.024) 0 1px 2px 0, rgba(0, 0, 0, 0.055) 0 18px 44px 0,
+    rgba(255, 255, 255, 0.9) 0 1px 0 0 inset;
 }
 
 @media (prefers-reduced-motion: reduce) {

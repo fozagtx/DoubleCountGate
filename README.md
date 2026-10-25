@@ -1,12 +1,10 @@
-# Each ton, sold once.
+# DoubleCountGate
 
-Carbon credits only work if each ton is sold once. The same forest or project paperwork can be used to mint two credits today. Buyers lose trust. The damage is done before anyone opens a fraud dashboard.
+DoubleCountGate is for carbon credit registries. If two desks issue a credit from the same monitoring pack, buyers cannot trust the market. The app hashes the pack into one evidence fingerprint before mint.
 
-DoubleCountGate is for the registry that issues the credit. Before a credit exists, the evidence pack is locked to one fingerprint. That fingerprint can be minted once. A second mint of the same evidence is refused.
+The first mint succeeds. A second mint of that fingerprint reverts on-chain. An AI model may fill the fields from the note. It never signs and never holds the mint key. If the read is incomplete, or confidence is below 0.80, the app stops and nothing is signed. ConnectKit connects the wallet that signs. A text link can use Hardhat’s local account when no browser wallet is installed.
 
-A language model may help read the paperwork into fields. It never holds the mint key, and it never creates the credit. If the read is incomplete, or the confidence is below the line, the app refuses and nothing is signed. ConnectKit connects the wallet that signs. A text link can use Hardhat’s local account when no browser wallet is installed.
-
-Who it is for: a carbon registry, or a project developer about to issue. What goes wrong today: one monitoring pack, two credits. What this does: stop the second one at the door.
+Who it is for: a carbon registry, or a project developer about to issue. What goes wrong: one monitoring pack can become two credits. What this does: store the fingerprint once and revert a repeat with `EVIDENCE_ALREADY_USED`.
 
 ## What you can watch
 
@@ -14,7 +12,7 @@ Who it is for: a carbon registry, or a project developer about to issue. What go
 2. If you have no browser wallet, use the text link **Use the local Hardhat account**. It is not the main control.
 3. **Use the synthetic fingerprint.** That hash is computed from the sample file. No model is called.
 4. **Mint this credit.** The credit id comes back **Issued**.
-5. **Attempt a second mint.** The chain reverts with `EVIDENCE_ALREADY_USED`. The page says the chain refused.
+5. **Attempt a second mint.** The chain reverts with `EVIDENCE_ALREADY_USED`. The page says **Second mint blocked**.
 6. Optionally, **Read the paperwork.** That call needs a model key. If the key is missing, the reader fails loud and invents nothing.
 
 ## Re-run
@@ -31,7 +29,7 @@ The offline half of the demo computes the fingerprint from the sample’s own fi
 
 ## Web app
 
-The page is the primary path. No model key is required for the lock. ConnectKit is the wallet button.
+The page is the primary path. No model key is required to mint. ConnectKit is the wallet button.
 
 ```bash
 npx hardhat node
@@ -55,12 +53,12 @@ The Akofia note in `samples/mrv-akofia-synthetic.txt` is invented. So is the thi
 
 The extraction call is real: OpenAI’s chat completions API, or any compatible `OPENAI_BASE_URL`. Temperature is 0. The app then checks that each required value is actually printed in the note, and that confidence is at least `CONFIDENCE_THRESHOLD` (default **0.80**). Fail either check and the mint button stays closed.
 
-A rewritten document is a different fingerprint. This prototype does not fuzzy-match two wordings of one forest. The lock is exact: the same `bytes32` cannot be minted twice.
+A rewritten document is a different fingerprint. This prototype does not fuzzy-match two wordings of one forest. The same `bytes32` cannot be minted twice.
 
 ## Built with
 
 Solidity, Hardhat, ethers v6, Next.js, Tailwind, ConnectKit, wagmi, viem, and an OpenAI-compatible chat completions endpoint.
 
-Scope is the lock: the registry, the reader, and the wallet signature.
+The registry stores the fingerprint. The reader fills fields. The wallet signs.
 
 Claims and how they are proven: [CLAIMS.md](CLAIMS.md).

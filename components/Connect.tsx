@@ -12,20 +12,19 @@ export function Connect() {
 
   return (
     <section id="connect" className="border-t border-line">
-      <div className="mx-auto max-w-3xl px-6 py-24">
-        <h2 className="text-2xl font-medium tracking-tight">Connect the signer.</h2>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-mute">
-          The wallet that connects here signs the mint. The model never does.
+      <div className="mx-auto max-w-desk px-6 py-24">
+        <h2 className="text-2xl font-medium tracking-tight">Connect wallet</h2>
+        <p className="mt-3 max-w-xl text-base leading-relaxed text-lead">
+          The wallet you connect here is the only thing that can sign a mint. The model cannot.
         </p>
-        <div className="mt-8" data-testid="connect-section">
+        <div className="mt-8 rounded-[14px] border border-line bg-white p-6" data-testid="connect-section">
           <ConnectKitButton />
-        </div>
-        <p className="mt-6 max-w-xl text-sm leading-relaxed text-mute" data-testid="walletconnect-note">
+        <p className="mt-5 max-w-xl text-sm leading-relaxed text-mute" data-testid="walletconnect-note">
           {walletConnectConfigured
-            ? "WalletConnect is available from this button, along with a browser wallet on this machine."
-            : "WalletConnect’s QR code needs NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID. It is unset, so that path is not started. A browser wallet on this machine still connects from the button above."}
+            ? "WalletConnect QR is available from this button, along with a browser wallet on this machine."
+            : "WalletConnect QR needs NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID. It is unset, so QR is off. A browser wallet on this machine still connects from the button above."}
         </p>
-        <p className="mt-8 text-sm text-mute" data-testid="signer-mode">
+        <p className="mt-5 text-sm text-mute" data-testid="signer-mode">
           {mode === "local" ? (
             <>
               Signing with the local Hardhat account {shorten(localIssuerAccount.address)}.{" "}
@@ -44,6 +43,7 @@ export function Connect() {
             </>
           )}
         </p>
+        </div>
       </div>
     </section>
   );

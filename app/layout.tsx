@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
@@ -16,15 +16,22 @@ const mono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const display = Newsreader({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  display: "swap",
+  variable: "--font-display",
+});
+
 export const metadata: Metadata = {
-  title: "DoubleCountGate — each ton, sold once",
+  title: "DoubleCountGate — Stop the same evidence pack from minting two credits",
   description:
-    "A lock for carbon registries. One evidence fingerprint can mint one credit. The second mint is refused. A model may read the paperwork. It never holds the key.",
+    "If two desks issue a credit from the same monitoring pack, buyers cannot trust the market. DoubleCountGate hashes the pack into one evidence fingerprint before mint. A second mint reverts. The model never signs.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable} ${display.variable}`}>
       <body className={sans.className}>
         <Providers>{children}</Providers>
       </body>

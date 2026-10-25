@@ -178,7 +178,7 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
       setTxHash(hash);
       if (counting) {
         setAttempts((value) => value - 1);
-        setFailure("The second mint was accepted. The lock did not hold.");
+        setFailure("The second mint was accepted. The registry did not block it.");
       }
     } catch (error) {
       const explained = explainRevert(error);
@@ -232,7 +232,7 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
     <div>
       {!ready ? (
         <p className="max-w-xl leading-relaxed text-mute">
-          Lock a fingerprint above. Then mint it once. The same fingerprint cannot be minted again.
+          Create a fingerprint in Evidence first. Then mint it once here. The same fingerprint cannot mint again.
         </p>
       ) : (
         <div>
@@ -281,9 +281,9 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
       )}
 
       {refusal ? (
-        <div className="mt-16 border-t border-ink pt-10" data-testid="chain-refuse">
+        <div className="mt-10 rounded-[14px] border border-line bg-sand px-5 py-5" data-testid="chain-refuse">
           <p className="font-mono text-xs text-mute">EVIDENCE_ALREADY_USED</p>
-          <h3 className="mt-4 text-4xl font-medium tracking-tight">The chain refused.</h3>
+          <h3 className="mt-2 text-2xl font-medium tracking-tight">Second mint blocked</h3>
           <p className="mt-4 max-w-xl text-lg leading-relaxed">
             {formatCredit(refusal.creditId)} already holds this fingerprint. The registry will not mint it again.
           </p>
