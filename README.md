@@ -27,11 +27,11 @@ Open `http://localhost:3000`. The app defaults to the Arc Testnet RPC in `lib/ch
 
 ## AI report reading
 
-Pasted reports are read with Nebius. Set `NEBIUS_API_KEY` in `.env` to enable this path. The optional `NEBIUS_BASE_URL` and `NEBIUS_MODEL` defaults are:
+Pasted reports are read with Nebius. Set `NEBIUS_API_KEY` in `.env` to enable this path. The optional `NEBIUS_BASE_URL` defaults to the endpoint below. Leave `NEBIUS_MODEL` unset to choose a model available to the API key, or set it to force a specific model.
 
 ```dotenv
 NEBIUS_BASE_URL=https://api.tokenfactory.nebius.com/v1
-NEBIUS_MODEL=meta-llama/Llama-3.3-70B-Instruct
+NEBIUS_MODEL=
 ```
 
 Without the API key, the app says **“AI reading isn't set up on this site yet”**; the clearly labeled synthetic examples remain available. Example reports and their extracted fields are sample data, not claims about real projects.
