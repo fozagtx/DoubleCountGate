@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { BaseError, ContractFunctionRevertedError, type Hex } from "viem";
 import { hardhat } from "wagmi/chains";
 import { useAccount, useReadContract, useSwitchChain, useWriteContract } from "wagmi";
+import { ConnectKitButton } from "connectkit";
 import { useSignerMode } from "@/components/Providers";
 import { creditRegistryAbi, STATUS_LABEL } from "@/lib/abi";
 import type { GatePass } from "@/lib/gate";
@@ -76,7 +77,7 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
   const status = readStatus(creditQuery.data);
   const issuer = readIssuer(creditQuery.data);
   const signerAddress = mode === "local" ? localIssuerAccount.address : address;
-  const wrongChain = mode === "injected" && isConnected && chainId !== hardhat.id;
+  const wrongChain = mode === "wallet" && isConnected && chainId !== hardhat.id;
   const isIssuer = Boolean(signerAddress && issuer && signerAddress.toLowerCase() === issuer.toLowerCase());
   const canSign = mode === "local" || (isConnected && !wrongChain);
 
@@ -177,7 +178,7 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
       setTxHash(hash);
       if (counting) {
         setAttempts((value) => value - 1);
-        setFailure("The second mint was accepted. The lock did not hold.");
+        setFailure("The second mint was accepted. The registry did not block it.");
       }
     } catch (error) {
       const explained = explainRevert(error);
@@ -228,105 +229,101 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-12">
-      <div className="lg:col-span-7">
-        {!ready ? (
-          <p className="max-w-xl leading-relaxed text-mute">
-            Lock the synthetic pack, or finish a real read. Then the local issuer can mint. A weak read never reaches
-            the chain. The same fingerprint cannot be minted twice.
-          </p>
-        ) : (
-          <div>
-            <p className="break-all font-mono text-xs leading-relaxed text-mute">{ready.hash}</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              {mode === "injected" && !isConnected ? (
-                <p className="max-w-md text-sm leading-relaxed text-mute">
-                  No browser wallet is connected. Use local issuer, or connect a wallet that is already on this machine.
-                  A WalletConnect project id is not required.
-                </p>
-              ) : wrongChain ? (
-                <button
-                  type="button"
-                  className="btn btn-forest"
-                  disabled={switching}
-                  onClick={() => switchChain({ chainId: hardhat.id })}
-                >
-                  {switching ? "Switching…" : "Switch to the local chain"}
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className={alreadyIssued ? "btn btn-oxide" : "btn btn-forest"}
-                  disabled={!registry || Boolean(busy)}
-                  onClick={onMint}
-                  data-testid={alreadyIssued ? "second-mint" : "mint"}
-                >
-                  {busy === "mint" || busy === "second"
-                    ? "Sending…"
-                    : alreadyIssued
-                      ? "Attempt a second mint"
-                      : "Mint this credit"}
-                </button>
-              )}
-              <button type="button" className="btn" onClick={() => loadRegistry().then(() => refresh())}>
-                Refresh the registry
+    <div>
+      {!ready ? (
+        <p className="max-w-xl leading-relaxed text-mute">
+          Create a fingerprint in Evidence first. Then mint it once here. The same fingerprint cannot mint again.
+        </p>
+      ) : (
+        <div>
+          <p className="break-all font-mono text-xs leading-relaxed text-mute">{ready.hash}</p>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            {mode === "wallet" && !isConnected ? (
+              <div>
+                <p className="mb-4 text-sm text-mute">Connect a wallet to mint.</p>
+                <ConnectKitButton />
+              </div>
+            ) : wrongChain ? (
+              <button
+                type="button"
+                className="btn"
+                disabled={switching}
+                onClick={() => switchChain({ chainId: hardhat.id })}
+              >
+                {switching ? "Switching…" : "Switch to Hardhat"}
               </button>
-            </div>
-            <p className="mt-4 text-sm text-mute">
-              {mode === "local"
-                ? `The local issuer ${shorten(localIssuerAccount.address)} signs on Hardhat. The model does not.`
-                : "The connected browser wallet signs. The model does not."}
-            </p>
-            {failure ? <p className="mt-4 max-w-xl text-sm text-oxide">{failure}</p> : null}
+            ) : (
+              <button
+                type="button"
+                className="btn"
+                disabled={!registry || Boolean(busy)}
+                onClick={onMint}
+                data-testid={alreadyIssued ? "second-mint" : "mint"}
+              >
+                {busy === "mint" || busy === "second"
+                  ? "Sending…"
+                  : alreadyIssued
+                    ? "Attempt a second mint"
+                    : "Mint this credit"}
+              </button>
+            )}
+            <button type="button" className="link text-sm" onClick={() => loadRegistry().then(() => refresh())}>
+              Refresh the registry
+            </button>
           </div>
-        )}
+          <p className="mt-4 text-sm text-mute">
+            {mode === "local"
+              ? `The local Hardhat account ${shorten(localIssuerAccount.address)} will sign. The model does not.`
+              : "The connected wallet will sign. The model does not."}
+          </p>
+          {failure ? <p className="mt-4 max-w-xl text-sm text-ink">{failure}</p> : null}
+        </div>
+      )}
 
-        {refusal ? (
-          <div className="stamp mt-8 bg-clay px-5 py-8" data-testid="chain-refuse">
-            <p className="eyebrow text-oxide">EVIDENCE_ALREADY_USED</p>
-            <h3 className="serif mt-3 text-4xl tracking-tight text-oxide md:text-5xl">The chain refused.</h3>
-            <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink">
-              Credit {formatCredit(refusal.creditId)} already holds this fingerprint. The registry will not mint it
-              again.
-            </p>
-            <p className="mt-6 font-mono text-sm" data-testid="judge-count">
-              {blocked}/{attempts} double-mints blocked this session.
-            </p>
-          </div>
-        ) : attempts > 0 ? (
+      {refusal ? (
+        <div className="mt-10 rounded-[14px] border border-line bg-sand px-5 py-5" data-testid="chain-refuse">
+          <p className="font-mono text-xs text-mute">EVIDENCE_ALREADY_USED</p>
+          <h3 className="mt-2 text-2xl font-medium tracking-tight">Second mint blocked</h3>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed">
+            {formatCredit(refusal.creditId)} already holds this fingerprint. The registry will not mint it again.
+          </p>
           <p className="mt-6 font-mono text-sm" data-testid="judge-count">
             {blocked}/{attempts} double-mints blocked this session.
           </p>
-        ) : null}
-      </div>
+        </div>
+      ) : attempts > 0 ? (
+        <p className="mt-6 font-mono text-sm" data-testid="judge-count">
+          {blocked}/{attempts} double-mints blocked this session.
+        </p>
+      ) : null}
 
-      <aside className="sheet px-5 py-6 lg:col-span-5">
-        <p className="eyebrow">Registry</p>
+      <div className="mt-16 border-t border-line pt-8 text-sm">
+        <p className="text-mute">Registry</p>
         {registry ? (
-          <p className="mt-3 break-all font-mono text-xs leading-relaxed" data-testid="registry-address">
+          <p className="mt-2 break-all font-mono text-xs" data-testid="registry-address">
             {registry.address}
           </p>
         ) : (
-          <p className="mt-3 text-sm leading-relaxed text-oxide" data-testid="registry-missing">
+          <p className="mt-2 text-mute" data-testid="registry-missing">
             {registryError ?? "No local registry yet."} Start `npx hardhat node`, then `npm run deploy`.
           </p>
         )}
-        <p className="mt-4 text-sm text-mute">Hardhat chain 31337 · {rpcUrl}</p>
+        <p className="mt-2 text-mute">Hardhat chain 31337 · {rpcUrl}</p>
 
         {alreadyIssued ? (
-          <div className="mt-6 border-t border-line pt-6">
-            <p className="serif text-5xl tracking-tight" data-testid="credit-id">
+          <div className="mt-8">
+            <p className="text-3xl font-medium tracking-tight" data-testid="credit-id">
               {formatCredit(existingId)}
             </p>
-            <p className="mt-2 text-sm">
+            <p className="mt-2">
               Status <span className="font-medium">{STATUS_LABEL[status ?? 0] ?? "Unknown"}</span>
             </p>
             {issuer ? <p className="mt-2 break-all font-mono text-xs text-mute">Issuer {issuer}</p> : null}
             {txHash ? <p className="mt-2 break-all font-mono text-xs text-mute">Last tx {txHash}</p> : null}
 
             {(mode === "local" || isConnected) && isIssuer && status === 1 ? (
-              <div className="mt-6 space-y-3">
-                <button type="button" className="btn" disabled={Boolean(busy)} onClick={onRetire} data-testid="retire">
+              <div className="mt-8 space-y-4">
+                <button type="button" className="btn btn-quiet" disabled={Boolean(busy)} onClick={onRetire} data-testid="retire">
                   {busy === "retire" ? "Retiring…" : "Retire this credit"}
                 </button>
                 <label className="block text-sm text-mute" htmlFor="contest-reason">
@@ -336,20 +333,18 @@ export function IssuePanel({ ready }: { ready: GatePass | null }) {
                   id="contest-reason"
                   value={contestReason}
                   onChange={(event) => setContestReason(event.target.value)}
-                  className="sheet w-full px-3 py-2 text-sm outline-none focus:border-forest"
+                  className="field px-3 py-2"
                 />
-                <button type="button" className="btn" disabled={Boolean(busy)} onClick={onContest}>
+                <button type="button" className="btn btn-quiet" disabled={Boolean(busy)} onClick={onContest}>
                   {busy === "contest" ? "Sending…" : "Mark contested"}
                 </button>
               </div>
             ) : null}
           </div>
         ) : (
-          <p className="mt-6 text-sm leading-relaxed text-mute">
-            {ready ? "This fingerprint is not a credit yet." : "No fingerprint to look up."}
-          </p>
+          <p className="mt-6 text-mute">{ready ? "This fingerprint is not a credit yet." : "No fingerprint to look up."}</p>
         )}
-      </aside>
+      </div>
     </div>
   );
 }

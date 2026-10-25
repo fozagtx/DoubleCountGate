@@ -17,7 +17,7 @@ npm run demo
 
 The test `reverts the second mint of the same hash` calls `mint` twice with one hash and expects `EVIDENCE_ALREADY_USED`. The demo mints the synthetic Akofia fingerprint, then attempts that same mint twice more, and prints `2/2 double-mints blocked`.
 
-In the web app, a passing read offers **Mint this credit**. After it is issued, **Attempt a second mint** calls the same contract. The panel should read **The chain refused.**
+In the web app, a passing read offers **Mint this credit**. After it is issued, **Attempt a second mint** calls the same contract. The panel should read **Second mint blocked**.
 
 ## C2 — The model cannot call mint
 
@@ -27,11 +27,11 @@ The model is asked for JSON only. `lib/model.ts` sends the paperwork to a chat c
 
 A mint happens outside the model:
 
-- **Use local issuer** signs with Hardhat’s published test account, and only against a loopback RPC. The key lives in `lib/local-issuer.ts`. The extract route does not import it.
-- A browser wallet, through wagmi’s injected connector, can sign instead. No WalletConnect project id is required.
+- ConnectKit connects an injected browser wallet. If `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` is set, the same button can also open WalletConnect. If it is unset, the QR path is not started.
+- The text link **Use the local Hardhat account** signs with Hardhat’s published test account, and only against a loopback RPC. The key lives in `lib/local-issuer.ts`. The extract route does not import it.
 - `npm run extract` (the CLI) signs with `ISSUER_PRIVATE_KEY` only after the gate has already passed. That variable is read in `lib/issuer.ts`, which is imported only by `scripts/extract-and-mint.ts`.
 
-If required fields are missing, a figure is not printed in the note, or confidence is under the line (default 0.80), the gate returns a refusal. The CLI prints `REFUSE` and exits 0. No transaction is sent. The web page says **Not read well enough to mint** and does not enable the mint button.
+If required fields are missing, a figure is not printed in the note, or confidence is under the line (default 0.80), the gate returns a refusal. The CLI prints `REFUSE` and exits 0. No transaction is sent. The web page says **Not enough to mint** and does not enable the mint button.
 
 If `OPENAI_API_KEY` and `OPENAI_BASE_URL` are both unset, the reader throws. The CLI exits non-zero. The page says the reader is not configured and does not invent a report. The synthetic fingerprint button does not call a model; it hashes the sample file.
 

@@ -101,106 +101,88 @@ export function GateApp() {
   const decision = read?.decision ?? null;
 
   return (
-    <section id="desk" className="mx-auto max-w-page px-6 py-16 md:px-10 md:py-24">
-      <div className="grid gap-6 md:grid-cols-12 md:items-end">
-        <div className="md:col-span-7">
-          <p className="eyebrow">Evidence pack</p>
-          <h2 className="serif mt-3 text-4xl tracking-tight md:text-5xl">Read the paperwork. Then decide.</h2>
-        </div>
-        <p className="text-sm leading-relaxed text-mute md:col-span-5" data-testid="reader-status">
+    <section id="desk" className="border-t border-line">
+      <div className="mx-auto max-w-desk px-6 py-24">
+        <h2 className="text-2xl font-medium tracking-tight">Evidence pack</h2>
+        <p className="mt-3 max-w-xl text-base leading-relaxed text-lead" data-testid="reader-status">
           {modelReady === false
-            ? "The reader is optional. Set OPENAI_API_KEY or OPENAI_BASE_URL only if you want a live read. The synthetic fingerprint and the local issuer work without a key. A missing key does not invent a report."
+            ? "No model key set (OPENAI_API_KEY or OPENAI_BASE_URL). “Read the paperwork” will fail out loud and invent nothing. “Use the synthetic fingerprint” does not call a model."
             : modelReady === true
-              ? "The reader is a live model call. A weak read stops here. The local issuer, or a browser wallet, signs. The model does not."
+              ? "A live model can read the note into fields. Mint still requires your wallet signature."
               : "Checking whether a model is configured."}
         </p>
-      </div>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <label className="sr-only" htmlFor="evidence">
-            Evidence pack
-          </label>
-          <textarea
-            id="evidence"
-            value={text}
-            onChange={(event) => {
-              setText(event.target.value);
-              setSampleLabel(null);
-            }}
-            placeholder="Paste a monitoring note, or load the synthetic sample."
-            className="sheet serif min-h-[22rem] w-full resize-y px-5 py-5 text-lg leading-relaxed text-ink outline-none focus:border-forest"
-          />
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <button type="button" className="btn btn-forest" onClick={onSynthetic} data-testid="synthetic-lock">
-              Use the synthetic fingerprint
-            </button>
-            <button type="button" className="btn" onClick={() => loadSample("full")}>
-              Load synthetic MRV
-            </button>
-            <button type="button" className="btn" onClick={() => loadSample("thin")}>
-              Load a thin note
-            </button>
-            <button type="button" className="btn btn-forest" onClick={onRead} disabled={!text.trim() || phase === "reading"}>
-              {phase === "reading" ? "Reading…" : "Read the paperwork"}
-            </button>
-          </div>
-          {sampleLabel ? <p className="mt-4 text-sm text-mute">{sampleLabel}</p> : null}
+        <label className="sr-only" htmlFor="evidence">
+          Evidence pack
+        </label>
+        <textarea
+          id="evidence"
+          value={text}
+          onChange={(event) => {
+            setText(event.target.value);
+            setSampleLabel(null);
+          }}
+          placeholder="Paste a monitoring note, or use the synthetic fingerprint below."
+          className="field mt-8 min-h-[16rem] resize-y bg-white px-4 py-4 leading-relaxed"
+        />
+        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <button type="button" className="btn" onClick={onSynthetic} data-testid="synthetic-lock">
+            Use the synthetic fingerprint
+          </button>
+          <button type="button" className="link text-sm" onClick={() => loadSample("full")}>
+            Load the sample
+          </button>
+          <button type="button" className="link text-sm" onClick={() => loadSample("thin")}>
+            Load a thin note
+          </button>
+          <button type="button" className="link text-sm" onClick={onRead} disabled={!text.trim() || phase === "reading"}>
+            {phase === "reading" && busyLabel.startsWith("Reading") ? "Reading…" : "Read the paperwork"}
+          </button>
         </div>
+        {sampleLabel ? <p className="mt-4 text-sm text-mute">{sampleLabel}</p> : null}
 
-        <div className="lg:col-span-5">
+        <div className="mt-12">
           {phase === "idle" ? (
-            <div className="border border-dashed border-line px-5 py-8 text-mute">
-              <p className="serif text-3xl text-ink">Waiting on a read.</p>
-              <p className="mt-3 leading-relaxed">
-                Required fields are the project, the methodology, the period, the tonnes, and an evidence id. Confidence
-                must clear 0.80, and every figure has to be printed in the note.
-              </p>
-            </div>
+            <p className="max-w-xl text-sm leading-relaxed text-mute">
+              A passing read needs project, methodology, period, tonnes, and evidence id printed in the note, with confidence ≥
+              0.80.
+            </p>
           ) : null}
-
           {phase === "reading" ? (
-            <p className="serif text-3xl" data-testid="reading">
+            <p className="text-lg" data-testid="reading">
               {busyLabel}
             </p>
           ) : null}
-
           {phase === "error" && error ? (
-            <div className="stamp bg-clay px-5 py-8 text-oxide" data-testid="model-missing">
-              <p className="eyebrow text-oxide">
-                {error.code === "MODEL_NOT_CONFIGURED" ? "Reader not connected" : "Reader failed"}
-              </p>
-              <h3 className="serif mt-3 text-4xl tracking-tight">
-                {error.code === "MODEL_NOT_CONFIGURED" ? "The reader is not connected." : "The read did not finish."}
+            <div data-testid="model-missing">
+              <h3 className="text-2xl font-medium tracking-tight">
+                {error.code === "MODEL_NOT_CONFIGURED" ? "Reader not configured" : "Read failed"}
               </h3>
-              <p className="mt-4 leading-relaxed">{error.message}</p>
+              <p className="mt-4 max-w-xl leading-relaxed text-mute">{error.message}</p>
             </div>
           ) : null}
-
           {phase === "refuse" && decision && !decision.ok ? (
-            <div className="stamp bg-clay px-5 py-8" data-testid="read-refuse">
-              <p className="eyebrow text-oxide">No mint offered</p>
-              <h3 className="serif mt-3 text-4xl tracking-tight text-oxide">Not read well enough to mint.</h3>
-              <p className="mt-4 leading-relaxed text-ink">
-                Confidence {formatConfidence(decision.confidence)} · line {decision.threshold.toFixed(2)}. The wallet was
-                not asked to sign.
+            <div data-testid="read-refuse">
+              <h3 className="text-2xl font-medium tracking-tight">Not enough to mint</h3>
+              <p className="mt-4 leading-relaxed text-mute">
+                Confidence {formatConfidence(decision.confidence)}. Required confidence is {decision.threshold.toFixed(2)}.
+                No wallet signature was requested.
               </p>
-              <ul className="mt-5 space-y-2 text-sm leading-relaxed">
+              <ul className="mt-6 space-y-2 text-sm leading-relaxed">
                 {decision.reasons.map((reason) => (
                   <li key={reason}>{reason}</li>
                 ))}
               </ul>
-              {read?.fieldNotes ? <p className="mt-5 text-sm text-mute">Model note: {read.fieldNotes}</p> : null}
+              {read?.fieldNotes ? <p className="mt-4 text-sm text-mute">Model note: {read.fieldNotes}</p> : null}
             </div>
           ) : null}
-
           {phase === "pass" && decision && decision.ok ? (
-            <div className="stamp sheet px-5 py-8" data-testid="read-pass">
-              <p className="eyebrow text-forest">
-                {origin === "synthetic" ? "Synthetic pack · no model call" : "Clear to offer a signature"}
+            <div data-testid="read-pass">
+              <p className="text-sm text-mute">
+                {origin === "synthetic" ? "Synthetic pack — no model was called." : "Fields look complete. You can mint below."}
               </p>
-              <h3 className="serif mt-3 text-4xl tracking-tight">One fingerprint.</h3>
-              <dl className="mt-6 space-y-3 text-sm">
+              <h3 className="mt-3 text-2xl font-medium tracking-tight">Fingerprint ready</h3>
+              <dl className="mt-8 max-w-xl space-y-3 text-sm">
                 <Field term="Project" value={decision.fields.projectName} />
                 <Field term="Methodology" value={decision.fields.methodology} />
                 <Field term="Period" value={decision.fields.reportingPeriod} />
@@ -221,20 +203,15 @@ export function GateApp() {
         </div>
       </div>
 
-      <div className="mt-16 border-t border-line pt-12">
-        <div className="grid gap-6 md:grid-cols-12 md:items-end">
-          <div className="md:col-span-7">
-            <p className="eyebrow">Issue</p>
-            <h2 className="serif mt-3 text-4xl tracking-tight md:text-5xl">A person signs. The model does not.</h2>
-          </div>
-          <p className="text-sm leading-relaxed text-mute md:col-span-5">
-            The local issuer is Hardhat’s test account on this machine. A browser wallet can sign instead. Mint once,
-            then try the same fingerprint again.
+      <div className="border-t border-line">
+        <div className="mx-auto max-w-desk px-6 py-24">
+          <h2 className="text-2xl font-medium tracking-tight">Mint credit</h2>
+          <p className="mt-3 max-w-xl leading-relaxed text-lead">
+            Sign once to issue the credit. Trying the same fingerprint again should revert.
           </p>
-        </div>
-
-        <div className="mt-8">
-          <IssuePanel ready={pass} />
+          <div className="mt-10">
+            <IssuePanel ready={pass} />
+          </div>
         </div>
       </div>
     </section>
