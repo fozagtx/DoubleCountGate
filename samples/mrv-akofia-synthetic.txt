@@ -1,0 +1,13 @@
+SYNTHETIC SAMPLE
+This monitoring note is invented for the DoubleCountGate prototype.
+It is not a real project and not a real carbon credit.
+
+Project name: Akofia Community Woodlot
+Evidence id: SYN-MRV-AKOFIA-2024-A
+Methodology: VM0012-demo
+Reporting period: 2024-01-01 to 2024-12-31
+Geography: Volta Region, Ghana (synthetic location)
+Net reduction: 1280.5 tCO2e
+
+The figures above are the whole evidence pack for a single issuance.
+No other desk should be given this same pack.
