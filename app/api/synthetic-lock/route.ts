@@ -7,9 +7,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const root = process.cwd();
-  const source = fs.readFileSync(path.join(root, "samples", "mrv-akofia-synthetic.txt"), "utf8");
+  const source = fs.readFileSync(path.join(root, "samples", "mrv-cedarbend-synthetic.txt"), "utf8");
   const fields = JSON.parse(
-    fs.readFileSync(path.join(root, "samples", "akofia-fields.json"), "utf8"),
+    fs.readFileSync(path.join(root, "samples", "cedarbend-fields.json"), "utf8"),
   ) as ModelExtraction;
   const decision = assess(source, fields);
   if (!decision.ok) {
@@ -26,7 +26,7 @@ export async function GET() {
     synthetic: true,
     modelCalled: false,
     label:
-      "Synthetic fingerprint for Akofia Community Woodlot. Computed from the sample file in this repo. No model was called.",
+      "Synthetic fingerprint for Cedar Bend Afforestation Pilot. Computed from the sample file in this repo. No model was called.",
     decision,
   });
 }

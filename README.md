@@ -23,7 +23,7 @@ npx hardhat test
 npm run demo
 ```
 
-`npm run demo` (or `make demo`) deploys a fresh registry in memory, mints the synthetic Akofia fingerprint, shows the hash, reverts the next two mints of that hash, and refuses a weak read without sending a transaction. The last line is the judge count, in the shape `2/2 double-mints blocked`.
+`npm run demo` (or `make demo`) deploys a fresh registry in memory, mints the synthetic Cedar Bend fingerprint, shows the hash, reverts the next two mints of that hash, and refuses a weak read without sending a transaction. The last line is the judge count, in the shape `2/2 double-mints blocked`.
 
 The offline half of the demo computes the fingerprint from the sample’s own fields. It is not a pretend model response. The live model runs when `OPENAI_API_KEY` or `OPENAI_BASE_URL` is set. If neither is set, the demo prints **FAIL LOUD** and does not invent an extraction. `npm run extract` exits non-zero in that case.
 
@@ -49,7 +49,7 @@ The local Hardhat account is account #0 (`0xf39Fd6e51aad88F6F4ce6aB8827279cffFb9
 
 ## Real model, synthetic paperwork
 
-The Akofia note in `samples/mrv-akofia-synthetic.txt` is invented. So is the thin note beside it. They are marked synthetic in the file and on the page. There is no live forest, verifier, or registry behind them.
+The synthetic Cedar Bend note in `samples/mrv-cedarbend-synthetic.txt` is invented. So is the thin note beside it. They are marked synthetic in the file and on the page. There is no live forest, verifier, or registry behind them.
 
 The extraction call is real: OpenAI’s chat completions API, or any compatible `OPENAI_BASE_URL`. Temperature is 0. The app then checks that each required value is actually printed in the note, and that confidence is at least `CONFIDENCE_THRESHOLD` (default **0.80**). Fail either check and the mint button stays closed.
 

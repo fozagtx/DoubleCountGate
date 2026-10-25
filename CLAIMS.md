@@ -15,7 +15,7 @@ npx hardhat test
 npm run demo
 ```
 
-The test `reverts the second mint of the same hash` calls `mint` twice with one hash and expects `EVIDENCE_ALREADY_USED`. The demo mints the synthetic Akofia fingerprint, then attempts that same mint twice more, and prints `2/2 double-mints blocked`.
+The test `reverts the second mint of the same hash` calls `mint` twice with one hash and expects `EVIDENCE_ALREADY_USED`. The demo mints the synthetic Cedar Bend fingerprint, then attempts that same mint twice more, and prints `2/2 double-mints blocked`.
 
 In the web app, a passing read offers **Mint this credit**. After it is issued, **Attempt a second mint** calls the same contract. The panel should read **Second mint blocked**.
 

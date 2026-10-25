@@ -30,18 +30,18 @@ export function Story() {
           <div className="grid md:grid-cols-[1.45fr_0.85fr]">
             <div className="border-b border-line p-5 md:border-b-0 md:border-r">
               <div className="min-h-[168px] rounded-xl border border-line bg-sheet px-4 py-4 text-sm leading-relaxed text-lead">
-                <p>Project: Akofia Community Woodlot</p>
+                <p>Project: Cedar Bend Afforestation Pilot</p>
                 <p>Methodology: VM0012-demo</p>
                 <p>Period: 2024-01-01 to 2024-12-31</p>
                 <p>Tonnes: 1280.5</p>
-                <p>Evidence id: SYN-MRV-AKOFIA-2024-A</p>
+                <p>Evidence id: SYN-MRV-CEDARBEND-2024-A</p>
               </div>
             </div>
             <div className="flex flex-col justify-between bg-sheet p-5">
               <div>
                 <p className="text-xs font-medium text-mute">Fingerprint</p>
                 <p className="mt-2 break-all font-mono text-xs leading-relaxed text-ink">
-                  0xf48681299fb4d4904e7be0cdbe66ceb599593930c2538e6f2580f17dd7ce6ac8
+                  0x36b632b29a85be0f71c8b2f618084a893700910c59309b3f9e0a5dbd34882d3a
                 </p>
               </div>
               <div className="mt-6">

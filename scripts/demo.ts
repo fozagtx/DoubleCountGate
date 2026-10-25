@@ -18,11 +18,11 @@ async function main() {
   console.log("DoubleCountGate");
   console.log("Stop the same evidence pack from minting two credits.\n");
 
-  const source = read("samples/mrv-akofia-synthetic.txt");
-  const fields = JSON.parse(read("samples/akofia-fields.json")) as ModelExtraction;
+  const source = read("samples/mrv-cedarbend-synthetic.txt");
+  const fields = JSON.parse(read("samples/cedarbend-fields.json")) as ModelExtraction;
   const decision = assess(source, fields);
   if (!decision.ok || !decision.hash || !decision.canonical) {
-    console.error("The synthetic Akofia pack failed its own gate. Nothing was minted.");
+    console.error("The synthetic Cedar Bend pack failed its own gate. Nothing was minted.");
     for (const reason of decision.reasons) console.error(` - ${reason}`);
     process.exit(1);
   }
@@ -70,7 +70,7 @@ async function main() {
     projectName: "River Trees",
     methodology: "VM0012-demo",
     reportingPeriod: "2024-01-01 to 2024-12-31",
-    geography: "Volta Region, Ghana (synthetic location)",
+    geography: "Demo temperate zone (synthetic location)",
     tonnesCo2e: 5000,
     evidenceId: "SYN-MADE-UP",
     confidence: 0.99,
@@ -91,7 +91,7 @@ async function main() {
     console.error("The gate accepted a low-confidence read.");
     process.exit(1);
   }
-  console.log("case B: same Akofia fields, confidence 0.22");
+  console.log("case B: same Cedar Bend fields, confidence 0.22");
   console.log("APP REFUSE");
   for (const reason of low.reasons) console.log(` - ${reason}`);
 

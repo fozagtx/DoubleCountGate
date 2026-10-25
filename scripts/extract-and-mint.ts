@@ -5,7 +5,7 @@ import { mintAsIssuer } from "../lib/issuer";
 import { modelConfigFromEnv, readModel } from "../lib/model";
 
 async function main() {
-  const sample = process.argv[2] || "samples/mrv-akofia-synthetic.txt";
+  const sample = process.argv[2] || "samples/mrv-cedarbend-synthetic.txt";
   const file = path.resolve(process.cwd(), sample);
   if (!fs.existsSync(file)) {
     console.error(`No sample at ${file}`);
