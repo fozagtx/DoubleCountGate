@@ -24,7 +24,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Faircri — One forest report. One carbon credit. Never two.",
+  title: "Faircri: One forest report. One carbon credit. Never two.",
   description:
     "Faircri gives every carbon monitoring report a unique fingerprint before a credit is issued. If anyone tries to issue a second credit from the same report, it is refused automatically.",
 };

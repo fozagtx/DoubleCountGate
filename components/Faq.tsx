@@ -3,7 +3,7 @@ import { LeafIcon } from "@/components/Icons";
 const questions = [
   {
     q: "What is double counting?",
-    a: "It is when one real-world climate result — say, a forest that removed 1,280 tonnes of CO₂ — gets sold as credits twice. Buyers pay twice, but the planet only benefits once.",
+    a: "It is when one real-world climate result, say a forest that removed 1,280 tonnes of CO₂, gets sold as credits twice. Buyers pay twice, but the planet only benefits once.",
   },
   {
     q: "What is a report fingerprint?",

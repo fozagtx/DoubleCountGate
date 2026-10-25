@@ -17,7 +17,7 @@ const steps = [
   {
     icon: FingerprintIcon,
     title: "We give it a fingerprint",
-    body: "The key facts — project, method, dates, tonnes, report ID — turn into a unique code. Same report, same code. Every time.",
+    body: "The key facts (project, method, dates, tonnes, report ID) turn into a unique code. Same report, same code. Every time.",
   },
   {
     icon: ShieldIcon,
@@ -43,7 +43,7 @@ export function Story() {
           One forest report. One credit. Never two.
         </h1>
         <p className="mx-auto mt-6 max-w-[34rem] text-[17px] leading-relaxed text-lead md:text-lg">
-          When the same report is used to issue two carbon credits, the climate only wins once — and buyers stop trusting
+          When the same report is used to issue two carbon credits, the climate only wins once, and buyers stop trusting
           the market. Faircri makes sure every report can back exactly one credit.
         </p>
         <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -93,7 +93,7 @@ export function Story() {
               Double counting, stopped before it starts.
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-lead">
-              Four steps. You only do the first and the third — the rest happens on its own.
+              Four steps. You only do the first and the third. The rest happens on its own.
             </p>
           </div>
           <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

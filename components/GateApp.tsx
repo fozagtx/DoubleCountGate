@@ -22,7 +22,7 @@ const sources: { id: Source; title: string; body: string; icon: typeof LeafIcon 
   {
     id: "example",
     title: "Cedar Bend forest",
-    body: "A complete example report. Checked instantly — no AI needed.",
+    body: "A complete example report. Checked instantly, no AI needed.",
     icon: LeafIcon,
   },
   {
@@ -198,7 +198,7 @@ export function GateApp() {
                     setText(event.target.value);
                     reset();
                   }}
-                  placeholder="Paste the report text here — project name, method, monitoring period, tonnes of CO₂ and report ID."
+                  placeholder="Paste the report text here: project name, method, monitoring period, tonnes of CO₂ and report ID."
                   className="field min-h-[11rem] resize-y px-4 py-3 text-[15px] leading-relaxed"
                 />
               </div>
@@ -415,6 +415,6 @@ function friendlyError(error: LoudError): string {
 }
 
 function percent(value: number | null): string {
-  if (value === null || !Number.isFinite(value)) return "—";
+  if (value === null || !Number.isFinite(value)) return "Not given";
   return `${Math.round(value * 100)}%`;
 }

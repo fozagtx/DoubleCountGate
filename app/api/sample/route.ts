@@ -7,11 +7,11 @@ export const dynamic = "force-dynamic";
 const samples = {
   full: {
     file: "mrv-cedarbend-synthetic.txt",
-    label: "Synthetic MRV — Cedar Bend Afforestation Pilot. Invented for this prototype. Not a real project.",
+    label: "Synthetic MRV: Cedar Bend Afforestation Pilot. Invented for this prototype. Not a real project.",
   },
   thin: {
     file: "mrv-thin-synthetic.txt",
-    label: "Synthetic MRV — incomplete on purpose. Invented. There is nothing here to issue.",
+    label: "Synthetic MRV: incomplete on purpose. Invented. There is nothing here to issue.",
   },
 } as const;
 
