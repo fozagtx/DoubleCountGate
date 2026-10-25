@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: faircri
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start -- -p $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: NEBIUS_API_KEY
+        sync: false
